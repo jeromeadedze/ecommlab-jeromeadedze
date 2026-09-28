@@ -1,6 +1,7 @@
 <?php
 // Ensure core is included if not already (header might be included directly by some views)
 require_once __DIR__ . '/../../core/core.php';
+$ROOT_DIR = defined('ROOT_DIR') ? ROOT_DIR : '..';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,13 +16,13 @@ require_once __DIR__ . '/../../core/core.php';
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="<?php echo $ROOT_DIR; ?>/css/style.css">
 </head>
 <body>
     <header class="custom-header d-flex justify-content-between align-items-center">
         <!-- Logo -->
         <div>
-            <a href="/index.php" class="brand-logo">Logo</a>
+            <a href="<?php echo $ROOT_DIR; ?>/index.php" class="brand-logo">Logo</a>
         </div>
         
 
@@ -30,10 +31,10 @@ require_once __DIR__ . '/../../core/core.php';
         <div class="d-flex align-items-center gap-3">
             <?php if (is_logged_in()): ?>
                 <span class="text-muted fw-medium">Hi, <?php echo htmlspecialchars($_SESSION['customer_name'] ?? 'User'); ?>!</span>
-                <a href="/logout.php" class="btn btn-outline-danger btn-sm border-0 fw-bold">Logout</a>
+                <a href="<?php echo $ROOT_DIR; ?>/logout.php" class="btn btn-outline-danger btn-sm border-0 fw-bold">Logout</a>
             <?php else: ?>
-                <a href="/views/login.php" class="btn-light-purple">Login</a>
-                <a href="/views/register.php" class="btn-primary-custom text-decoration-none">Register</a>
+                <a href="<?php echo $ROOT_DIR; ?>/views/login.php" class="btn-light-purple">Login</a>
+                <a href="<?php echo $ROOT_DIR; ?>/views/register.php" class="btn-primary-custom text-decoration-none">Register</a>
             <?php endif; ?>
         </div>
     </header>
