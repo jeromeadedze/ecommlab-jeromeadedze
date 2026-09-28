@@ -1,4 +1,8 @@
 <?php
+// TEMP: show errors instead of a blank 500 page
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 // This is an "action" file - the endpoint the browser's JavaScript sends
 // the registration form to (see js/customer.js -> fetch("../actions/customer_register_action.php")).
 // Its job is: read the incoming request, hand the data to the controller,

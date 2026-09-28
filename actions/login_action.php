@@ -1,4 +1,8 @@
 <?php
+// TEMP: show errors instead of a blank 500 page
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 require_once "../core/core.php";
 require_once "../controllers/CustomerController.php";
 

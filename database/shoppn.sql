@@ -26,9 +26,8 @@ START TRANSACTION;
 SET time_zone = "+00:00";
 SET NAMES utf8mb4;
 
-CREATE DATABASE IF NOT EXISTS `shoppn`
-  DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE `shoppn`;
+-- Removed CREATE DATABASE / USE — import directly into your existing
+-- database (ecommerce_2026A_jerome_adedze) via phpMyAdmin.
 
 -- ── brands ──────────────────────────────────────────────────
 DROP TABLE IF EXISTS `payment`;
