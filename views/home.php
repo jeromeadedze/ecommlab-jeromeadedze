@@ -8,6 +8,8 @@ require_once __DIR__ . '/layout/sidebar.php';
     
     <?php if (is_admin()): ?>
         <a href="<?php echo $ROOT_DIR; ?>/views/customers.php" class="btn-light-purple"><i class="bi bi-people"></i> View customers</a>
+        <a href="<?php echo $ROOT_DIR; ?>/views/admin/brand.php" class="btn-light-purple"><i class="bi bi-tags"></i> Brands</a>
+        <a href="<?php echo $ROOT_DIR; ?>/views/admin/category.php" class="btn-light-purple"><i class="bi bi-grid"></i> Categories</a>
     <?php endif; ?>
 </div>
 

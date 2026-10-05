@@ -25,7 +25,6 @@ $ROOT_DIR = defined('ROOT_DIR') ? ROOT_DIR : '..';
             <a href="<?php echo $ROOT_DIR; ?>/index.php" class="brand-logo">Logo</a>
         </div>
         
-
         
         <!-- Navigation Actions -->
         <div class="d-flex align-items-center gap-3">
