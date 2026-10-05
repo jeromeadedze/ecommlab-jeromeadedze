@@ -9,21 +9,28 @@ require_admin();
 $controller = new ProductController();
 $categories = $controller->getAllCategories();
 
+// Check if we are in edit mode
+$editCategory = null;
+if (isset($_GET['edit_id'])) {
+    $edit_id = intval($_GET['edit_id']);
+    if ($edit_id > 0) {
+        $editCategory = $controller->getCategoryById($edit_id);
+    }
+}
+
 // Include layout header
 require_once __DIR__ . "/../layout/header.php";
 ?>
 
 <div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-        <div>
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-1">
-                    <li class="breadcrumb-item"><a href="<?php echo $ROOT_DIR; ?>/index.php" class="text-decoration-none">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Categories</li>
-                </ol>
-            </nav>
-            <h2 class="mb-0 fw-bold">Category Management</h2>
-        </div>
+    <div class="mb-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-1">
+                <li class="breadcrumb-item"><a href="<?php echo $ROOT_DIR; ?>/index.php" class="text-decoration-none">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Categories</li>
+            </ol>
+        </nav>
+        <h2 class="fw-bold mb-3">Category Management</h2>
         <div class="d-flex gap-2">
             <a href="<?php echo $ROOT_DIR; ?>/index.php" class="btn btn-outline-secondary">
                 <i class="bi bi-arrow-left"></i> Back to Home
@@ -55,18 +62,28 @@ require_once __DIR__ . "/../layout/header.php";
         </div>
     <?php endif; ?>
 
-    <!-- Add Category Form -->
+    <!-- Add / Edit Category Form -->
     <div class="card mb-5 shadow-sm">
         <div class="card-header bg-primary text-white">
-            <h5 class="card-title mb-0">Add New Category</h5>
+            <h5 class="card-title mb-0"><?php echo $editCategory ? 'Edit Category' : 'Add New Category'; ?></h5>
         </div>
         <div class="card-body">
-            <form action="../../actions/add_category_action.php" method="POST">
+            <form action="../../actions/<?php echo $editCategory ? 'update_category_action.php' : 'add_category_action.php'; ?>" method="POST">
+                <?php if ($editCategory): ?>
+                    <input type="hidden" name="cat_id" value="<?php echo htmlspecialchars($editCategory['cat_id']); ?>">
+                <?php endif; ?>
                 <div class="mb-3">
                     <label for="cat_name" class="form-label">Category Name</label>
-                    <input type="text" class="form-control" id="cat_name" name="cat_name" placeholder="Enter category name" required>
+                    <input type="text" class="form-control" id="cat_name" name="cat_name" 
+                           placeholder="Enter category name" required
+                           value="<?php echo $editCategory ? htmlspecialchars($editCategory['cat_name']) : ''; ?>">
                 </div>
-                <button type="submit" class="btn btn-primary">Add Category</button>
+                <button type="submit" class="btn btn-primary">
+                    <?php echo $editCategory ? 'Update Category' : 'Add Category'; ?>
+                </button>
+                <?php if ($editCategory): ?>
+                    <a href="category.php" class="btn btn-secondary ms-2">Cancel</a>
+                <?php endif; ?>
             </form>
         </div>
     </div>
@@ -93,7 +110,7 @@ require_once __DIR__ . "/../layout/header.php";
                                     <td><?php echo htmlspecialchars($cat['cat_id']); ?></td>
                                     <td><?php echo htmlspecialchars($cat['cat_name']); ?></td>
                                     <td class="text-end pe-3">
-                                        <a href="edit_category.php?id=<?php echo $cat['cat_id']; ?>" class="btn btn-sm btn-outline-primary me-1">
+                                        <a href="category.php?edit_id=<?php echo $cat['cat_id']; ?>" class="btn btn-sm btn-outline-primary me-1">
                                             <i class="bi bi-pencil"></i> Edit
                                         </a>
                                         <button type="button" 

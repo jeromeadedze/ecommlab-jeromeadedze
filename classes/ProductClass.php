@@ -83,6 +83,20 @@ class ProductClass extends Database
         return $this->fetchAll($sql);
     }
 
+    // Fetch a single category by ID
+    public function getCategoryById($id)
+    {
+        $sql = "SELECT * FROM categories WHERE cat_id = ?";
+        return $this->fetchOne($sql, [$id]);
+    }
+
+    // Update an existing category
+    public function updateCategory($id, $name)
+    {
+        $sql = "UPDATE categories SET cat_name = ? WHERE cat_id = ?";
+        return $this->execute($sql, [$name, $id]);
+    }
+
     // Delete a category by ID
     public function deleteCategory($id)
     {

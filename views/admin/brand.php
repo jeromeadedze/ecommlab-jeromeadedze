@@ -24,16 +24,14 @@ require_once __DIR__ . "/../layout/header.php";
 ?>
 
 <div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-        <div>
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-1">
-                    <li class="breadcrumb-item"><a href="<?php echo $ROOT_DIR; ?>/index.php" class="text-decoration-none">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Brands</li>
-                </ol>
-            </nav>
-            <h2 class="mb-0 fw-bold">Brand Management</h2>
-        </div>
+    <div class="mb-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-1">
+                <li class="breadcrumb-item"><a href="<?php echo $ROOT_DIR; ?>/index.php" class="text-decoration-none">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Brands</li>
+            </ol>
+        </nav>
+        <h2 class="fw-bold mb-3">Brand Management</h2>
         <div class="d-flex gap-2">
             <a href="<?php echo $ROOT_DIR; ?>/index.php" class="btn btn-outline-secondary">
                 <i class="bi bi-arrow-left"></i> Back to Home

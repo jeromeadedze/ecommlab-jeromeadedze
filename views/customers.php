@@ -10,9 +10,22 @@ $customers = $controller->selectAll();
 ?>
 
 <div class="container-fluid py-5" style="max-width: 1000px;">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold m-0" style="color: #111;">Registered Customers</h2>
-        <span class="badge bg-primary rounded-pill px-3 py-2 fs-6"><?php echo count($customers); ?> Total</span>
+    <div class="mb-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-1">
+                <li class="breadcrumb-item"><a href="<?php echo $ROOT_DIR; ?>/index.php" class="text-decoration-none">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Customers</li>
+            </ol>
+        </nav>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="fw-bold m-0" style="color: #111;">Registered Customers</h2>
+            <span class="badge bg-primary rounded-pill px-3 py-2 fs-6"><?php echo count($customers); ?> Total</span>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="<?php echo $ROOT_DIR; ?>/index.php" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> Back to Home
+            </a>
+        </div>
     </div>
 
     <div class="card auth-card p-0 overflow-hidden">
