@@ -30,6 +30,11 @@ class ProductController
         return $this->productModel->updateBrand($id, $name, $cat_id);
     }
 
+    public function deleteBrand($id)
+    {
+        return $this->productModel->deleteBrand($id);
+    }
+
     public function addCategory($name)
     {
         return $this->productModel->addCategory($name);
@@ -38,6 +43,11 @@ class ProductController
     public function getAllCategories()
     {
         return $this->productModel->getAllCategories();
+    }
+
+    public function deleteCategory($id)
+    {
+        return $this->productModel->deleteCategory($id);
     }
 }
 ?>

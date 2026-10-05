@@ -36,7 +36,8 @@ function is_logged_in() {
 
 function require_login() {
     if (!is_logged_in()) {
-        header("Location: ../views/login.php");
+        $root = defined('ROOT_DIR') ? ROOT_DIR : '..';
+        header("Location: " . $root . "/views/login.php");
         exit;
     }
 }
@@ -54,8 +55,9 @@ function is_admin() {
 
 function require_admin() {
     if (!is_admin()) {
-        $_SESSION['error'] = "Access denied.";
-        header("Location: ../index.php");
+        $_SESSION['error'] = "Access denied. Admin privileges required.";
+        $root = defined('ROOT_DIR') ? ROOT_DIR : '..';
+        header("Location: " . $root . "/index.php");
         exit;
     }
 }

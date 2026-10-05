@@ -24,7 +24,25 @@ require_once __DIR__ . "/../layout/header.php";
 ?>
 
 <div class="container py-4">
-    <h2 class="mb-4">Brand Management</h2>
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-1">
+                    <li class="breadcrumb-item"><a href="<?php echo $ROOT_DIR; ?>/index.php" class="text-decoration-none">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Brands</li>
+                </ol>
+            </nav>
+            <h2 class="mb-0 fw-bold">Brand Management</h2>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="<?php echo $ROOT_DIR; ?>/index.php" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> Back to Home
+            </a>
+            <a href="category.php" class="btn btn-outline-primary">
+                <i class="bi bi-grid"></i> Manage Categories
+            </a>
+        </div>
+    </div>
 
     <!-- Display Flash Success / Error Messages -->
     <?php if (isset($_SESSION['success'])): ?>
@@ -111,7 +129,7 @@ require_once __DIR__ . "/../layout/header.php";
                             <th># ID</th>
                             <th>Brand Name</th>
                             <th>Category</th>
-                            <th>Action</th>
+                            <th class="text-end pe-3">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -121,8 +139,18 @@ require_once __DIR__ . "/../layout/header.php";
                                     <td><?php echo htmlspecialchars($brand['brand_id']); ?></td>
                                     <td><?php echo htmlspecialchars($brand['brand_name']); ?></td>
                                     <td><?php echo htmlspecialchars($brand['category_name'] ?: 'None'); ?></td>
-                                    <td>
-                                        <a href="brand.php?edit_id=<?php echo $brand['brand_id']; ?>" class="btn btn-sm btn-outline-primary">Edit</a>
+                                    <td class="text-end pe-3">
+                                        <a href="brand.php?edit_id=<?php echo $brand['brand_id']; ?>" class="btn btn-sm btn-outline-primary me-1">
+                                            <i class="bi bi-pencil"></i> Edit
+                                        </a>
+                                        <button type="button" 
+                                                class="btn btn-sm btn-outline-danger" 
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#deleteBrandModal"
+                                                data-brand-id="<?php echo $brand['brand_id']; ?>"
+                                                data-brand-name="<?php echo htmlspecialchars($brand['brand_name']); ?>">
+                                            <i class="bi bi-trash"></i> Delete
+                                        </button>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -137,5 +165,43 @@ require_once __DIR__ . "/../layout/header.php";
         </div>
     </div>
 </div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteBrandModal" tabindex="-1" aria-labelledby="deleteBrandModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteBrandModalLabel">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i> Confirm Delete
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body py-4">
+                <p class="mb-1 fs-6">Are you sure you want to delete <strong id="deleteBrandName" class="text-danger"></strong>?</p>
+                <small class="text-muted">This action cannot be undone.</small>
+            </div>
+            <div class="modal-footer bg-light">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a href="#" id="confirmDeleteBtn" class="btn btn-danger">
+                    <i class="bi bi-trash"></i> Yes, Delete
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const deleteBrandModal = document.getElementById('deleteBrandModal');
+    if (deleteBrandModal) {
+        deleteBrandModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const brandId = button.getAttribute('data-brand-id');
+            const brandName = button.getAttribute('data-brand-name');
+
+            document.getElementById('deleteBrandName').textContent = "'" + brandName + "'";
+            document.getElementById('confirmDeleteBtn').href = '../../actions/delete_brand_action.php?id=' + brandId;
+        });
+    }
+</script>
 
 <?php require_once __DIR__ . "/../layout/footer.php"; ?>
