@@ -32,6 +32,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
+    // Server-side password validation (min 8 chars, 1 uppercase, 1 lowercase, 1 digit, 1 special char)
+    $passPattern = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/';
+    if (!preg_match($passPattern, $pass)) {
+        $_SESSION['error'] = 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character (@$!%*?&).';
+        header('Location: ../views/register.php');
+        exit;
+    }
+
     $controller = new CustomerController();
     $result = $controller->register($name, $email, $pass, $country, $city, $contact, $image);
 
