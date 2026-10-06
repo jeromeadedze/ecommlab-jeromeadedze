@@ -9,21 +9,21 @@ const citiesByCountry = {
     "Canada": ["Toronto", "Vancouver", "Montreal", "Calgary", "Ottawa"]
 };
 
-// Update City dropdown when Country changes
+// Update City suggestions datalist when Country changes
 const countrySelect = document.getElementById('customer_country');
-const citySelect = document.getElementById('customer_city');
+const cityDatalist = document.getElementById('city_suggestions');
+const cityInput = document.getElementById('customer_city');
 
-if (countrySelect && citySelect) {
+if (countrySelect && cityDatalist) {
     countrySelect.addEventListener('change', function () {
         const country = this.value;
-        citySelect.innerHTML = '<option value="">-- Select City --</option>';
+        cityDatalist.innerHTML = '';
 
         if (citiesByCountry[country]) {
             citiesByCountry[country].forEach(city => {
                 const opt = document.createElement('option');
                 opt.value = city;
-                opt.textContent = city;
-                citySelect.appendChild(opt);
+                cityDatalist.appendChild(opt);
             });
         }
         hideError('country_error', countrySelect);
