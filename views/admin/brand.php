@@ -32,12 +32,18 @@ require_once __DIR__ . "/../layout/header.php";
             </ol>
         </nav>
         <h2 class="fw-bold mb-3">Brand Management</h2>
-        <div class="d-flex gap-2">
+        <div class="d-flex gap-2 flex-wrap">
             <a href="<?php echo $ROOT_DIR; ?>/index.php" class="btn btn-outline-secondary">
                 <i class="bi bi-arrow-left"></i> Back to Home
             </a>
-            <a href="category.php" class="btn btn-outline-primary">
+            <a href="product.php" class="btn-light-purple">
+                <i class="bi bi-box-seam"></i> Manage Products
+            </a>
+            <a href="category.php" class="btn-light-purple">
                 <i class="bi bi-grid"></i> Manage Categories
+            </a>
+            <a href="<?php echo $ROOT_DIR; ?>/views/customers.php" class="btn-light-purple">
+                <i class="bi bi-people"></i> Customers
             </a>
         </div>
     </div>
@@ -64,9 +70,9 @@ require_once __DIR__ . "/../layout/header.php";
     <?php endif; ?>
 
     <!-- Add / Edit Brand Form -->
-    <div class="card mb-5 shadow-sm">
-        <div class="card-header bg-primary text-white">
-            <h5 class="card-title mb-0"><?php echo $editBrand ? 'Edit Brand' : 'Add New Brand'; ?></h5>
+    <div class="card mb-5 shadow-sm border-0 rounded-4 overflow-hidden">
+        <div class="card-header card-header-violet py-3">
+            <h5 class="card-title mb-0 fw-bold"><?php echo $editBrand ? 'Edit Brand' : 'Add New Brand'; ?></h5>
         </div>
         <div class="card-body">
             <form action="../../actions/<?php echo $editBrand ? 'update_brand_action.php' : 'add_brand_action.php'; ?>" method="POST">

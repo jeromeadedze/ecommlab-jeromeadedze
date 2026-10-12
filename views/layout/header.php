@@ -24,8 +24,12 @@ $ROOT_DIR = defined('ROOT_DIR') ? ROOT_DIR : '..';
         <div>
             <a href="<?php echo $ROOT_DIR; ?>/index.php" class="brand-logo">Logo</a>
         </div>
-        
-        
+
+        <!-- Search Bar -->
+        <form action="<?php echo $ROOT_DIR; ?>/views/search_results.php" method="GET" class="search-bar-container m-0">
+            <i class="bi bi-search"></i>
+            <input type="text" name="user_query" placeholder="Search products, brands, tags..." required value="<?php echo htmlspecialchars($_GET['user_query'] ?? ''); ?>">
+        </form>
         <!-- Navigation Actions -->
         <div class="d-flex align-items-center gap-3">
             <?php if (is_logged_in()): ?>

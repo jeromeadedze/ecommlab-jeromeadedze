@@ -59,5 +59,49 @@ class ProductController
     {
         return $this->productModel->deleteCategory($id);
     }
+
+    // ============================================================
+    // Product Methods
+    // ============================================================
+
+    public function addProduct($cat, $brand, $title, $price, $desc, $image_filename, $keywords)
+    {
+        return $this->productModel->addProduct($cat, $brand, $title, $price, $desc, $image_filename, $keywords);
+    }
+
+    public function updateProduct($id, $cat, $brand, $title, $price, $desc, $image_filename, $keywords)
+    {
+        return $this->productModel->updateProduct($id, $cat, $brand, $title, $price, $desc, $image_filename, $keywords);
+    }
+
+    public function getProductById($id)
+    {
+        return $this->productModel->getProductById($id);
+    }
+
+    public function getAllProducts()
+    {
+        return $this->productModel->getAllProducts();
+    }
+
+    public function getFeaturedProducts($limit = 6)
+    {
+        return $this->productModel->getFeaturedProducts($limit);
+    }
+
+    public function getProductsByCategory($cat_id)
+    {
+        return $this->productModel->getProductsByCategory($cat_id);
+    }
+
+    public function getProductsByBrand($brand_id)
+    {
+        return $this->productModel->getProductsByBrand($brand_id);
+    }
+
+    public function searchProducts($query)
+    {
+        return $this->productModel->searchProducts($query);
+    }
 }
 ?>

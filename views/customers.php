@@ -19,11 +19,20 @@ $customers = $controller->selectAll();
         </nav>
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2 class="fw-bold m-0" style="color: #111;">Registered Customers</h2>
-            <span class="badge bg-primary rounded-pill px-3 py-2 fs-6"><?php echo count($customers); ?> Total</span>
+            <span class="badge badge-violet rounded-pill px-3 py-2 fs-6"><?php echo count($customers); ?> Total</span>
         </div>
-        <div class="d-flex gap-2">
+        <div class="d-flex gap-2 flex-wrap">
             <a href="<?php echo $ROOT_DIR; ?>/index.php" class="btn btn-outline-secondary">
                 <i class="bi bi-arrow-left"></i> Back to Home
+            </a>
+            <a href="<?php echo $ROOT_DIR; ?>/views/admin/product.php" class="btn-light-purple">
+                <i class="bi bi-box-seam"></i> Products
+            </a>
+            <a href="<?php echo $ROOT_DIR; ?>/views/admin/brand.php" class="btn-light-purple">
+                <i class="bi bi-tags"></i> Brands
+            </a>
+            <a href="<?php echo $ROOT_DIR; ?>/views/admin/category.php" class="btn-light-purple">
+                <i class="bi bi-grid"></i> Categories
             </a>
         </div>
     </div>

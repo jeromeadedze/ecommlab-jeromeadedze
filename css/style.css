@@ -65,6 +65,7 @@ body {
     font-weight: 500;
     padding: 8px 20px;
     border: none;
+    transition: background-color 0.15s ease, transform 0.1s ease;
 }
 .btn-primary-custom:hover {
     background-color: #3000b3;
@@ -78,12 +79,65 @@ body {
     font-weight: 600;
     padding: 8px 20px;
     text-decoration: none;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     border: none;
+    transition: background-color 0.15s ease, color 0.15s ease;
 }
 .btn-light-purple:hover {
     background-color: #d1c8ff;
     color: var(--primary-color);
+}
+
+/* Violet Theme Overrides for Bootstrap Components */
+.btn-primary, 
+.btn-primary:active, 
+.btn-primary:focus {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: #fff !important;
+}
+.btn-primary:hover {
+    background-color: #3000b3 !important;
+    border-color: #3000b3 !important;
+    color: #fff !important;
+}
+
+.btn-outline-primary {
+    color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+}
+.btn-outline-primary:hover,
+.btn-outline-primary:active,
+.btn-outline-primary:focus {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: #fff !important;
+}
+
+.bg-primary {
+    background-color: var(--primary-color) !important;
+}
+
+.text-primary {
+    color: var(--primary-color) !important;
+}
+
+.border-primary {
+    border-color: var(--primary-color) !important;
+}
+
+.card-header-violet {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #5b21b6 100%);
+    color: #ffffff;
+    border-bottom: none;
+}
+
+.badge-violet {
+    background-color: var(--primary-light);
+    color: var(--primary-color);
+    font-weight: 600;
 }
 
 /* Cards (Login & Register) */
