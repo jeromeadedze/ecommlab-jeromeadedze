@@ -51,12 +51,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $upload_dir = __DIR__ . '/../images/products/';
 
         if (!is_dir($upload_dir)) {
-            mkdir($upload_dir, 0755, true);
+            mkdir($upload_dir, 0777, true);
         }
+        @chmod($upload_dir, 0777);
 
         $destination = $upload_dir . $filename;
         if (!move_uploaded_file($tmp_path, $destination)) {
-            $_SESSION['error'] = "Failed to upload product image.";
+            $_SESSION['error'] = "Failed to upload product image. Please verify write permissions (chmod 777) on images/products/.";
             header("Location: ../views/admin/product.php");
             exit;
         }
