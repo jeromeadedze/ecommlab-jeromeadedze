@@ -31,7 +31,6 @@ $totalPrice = $cartCtrl->getCartTotal($cartIp);
     <header class="custom-header">
         <!-- Logo -->
         <a href="<?php echo $ROOT_DIR; ?>/index.php" class="brand-logo" aria-label="Shoppn home">
-            <span class="brand-mark" aria-hidden="true"><i class="bi bi-bag-heart-fill"></i></span>
             <span class="brand-name">Shopp<span class="brand-accent">n</span></span>
         </a>
 
