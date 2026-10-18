@@ -65,10 +65,17 @@ if (!$product) {
         <span class="price">$<?php echo number_format($product['product_price'], 2); ?></span>
 
         <div class="detail-actions">
-            <a href="<?php echo $ROOT_DIR; ?>/actions/add_cart_action.php?add_cart=<?php echo $product['product_id']; ?>"
-               class="btn-primary-custom btn-lg-custom">
-                <i class="bi bi-cart-plus" aria-hidden="true"></i> Add to cart
-            </a>
+            <?php if (is_admin()): ?>
+                <a href="<?php echo $ROOT_DIR; ?>/views/admin/product.php?edit=<?php echo $product['product_id']; ?>"
+                   class="btn-primary-custom btn-lg-custom">
+                    <i class="bi bi-pencil" aria-hidden="true"></i> Edit product
+                </a>
+            <?php else: ?>
+                <a href="<?php echo $ROOT_DIR; ?>/actions/add_cart_action.php?add_cart=<?php echo $product['product_id']; ?>"
+                   class="btn-primary-custom btn-lg-custom">
+                    <i class="bi bi-cart-plus" aria-hidden="true"></i> Add to cart
+                </a>
+            <?php endif; ?>
             <a href="<?php echo $ROOT_DIR; ?>/index.php" class="btn-outline-custom btn-lg-custom">
                 Continue shopping
             </a>

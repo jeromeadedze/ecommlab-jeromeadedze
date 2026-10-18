@@ -4,7 +4,7 @@
 <?php endif; ?>
     </main>
     <footer class="site-footer">
-        <span>&copy; <?php echo date('Y'); ?> Ecomm Lab</span>
+        <span>&copy; <?php echo date('Y'); ?> Shoppn</span>
         <span>Ashesi University E-Commerce Lab</span>
     </footer>
     <!-- Bootstrap 5 JS Bundle -->

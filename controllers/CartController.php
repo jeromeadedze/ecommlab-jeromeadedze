@@ -54,4 +54,20 @@ class CartController
     {
         return $this->cartModel->getCartTotal($ip);
     }
+
+    /**
+     * Remove an item from the cart
+     */
+    public function removeFromCart($product_id, $ip)
+    {
+        return $this->cartModel->removeFromCart($product_id, $ip);
+    }
+
+    /**
+     * Update quantity of an item
+     */
+    public function updateQty($product_id, $new_qty, $ip)
+    {
+        return $this->cartModel->updateQty($product_id, $new_qty, $ip);
+    }
 }

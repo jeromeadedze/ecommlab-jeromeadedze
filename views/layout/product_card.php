@@ -24,11 +24,19 @@ $detailUrl = $ROOT_DIR . '/views/single_product.php?pro_id=' . $p['product_id'];
         <p class="product-card-desc"><?php echo htmlspecialchars($p['product_desc'] ?? ''); ?></p>
         <div class="product-card-footer">
             <span class="price">$<?php echo number_format($p['product_price'], 2); ?></span>
-            <a href="<?php echo $ROOT_DIR; ?>/actions/add_cart_action.php?add_cart=<?php echo $p['product_id']; ?>"
-               class="btn-primary-custom btn-sm-custom">
-                <i class="bi bi-cart-plus" aria-hidden="true"></i>
-                <span>Add<span class="visually-hidden"> <?php echo htmlspecialchars($p['product_title']); ?></span> to cart</span>
-            </a>
+            <?php if (is_admin()): ?>
+                <a href="<?php echo $ROOT_DIR; ?>/views/admin/product.php?edit=<?php echo $p['product_id']; ?>"
+                   class="btn-outline-custom btn-sm-custom">
+                    <i class="bi bi-pencil" aria-hidden="true"></i>
+                    <span>Edit</span>
+                </a>
+            <?php else: ?>
+                <a href="<?php echo $ROOT_DIR; ?>/actions/add_cart_action.php?add_cart=<?php echo $p['product_id']; ?>"
+                   class="btn-primary-custom btn-sm-custom">
+                    <i class="bi bi-cart-plus" aria-hidden="true"></i>
+                    <span>Add<span class="visually-hidden"> <?php echo htmlspecialchars($p['product_title']); ?></span> to cart</span>
+                </a>
+            <?php endif; ?>
         </div>
     </div>
 </article>

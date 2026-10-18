@@ -3,6 +3,14 @@
 require_once __DIR__ . "/../core/core.php";
 require_once __DIR__ . "/../controllers/CartController.php";
 
+// Admins do not use shopping carts
+if (is_admin()) {
+    $_SESSION['warning'] = "Admins cannot add items to the cart.";
+    $referer = $_SERVER['HTTP_REFERER'] ?? '../index.php';
+    header("Location: $referer");
+    exit;
+}
+
 // Check if add_cart parameter is present in GET
 if (!isset($_GET['add_cart']) || empty($_GET['add_cart'])) {
     $referer = $_SERVER['HTTP_REFERER'] ?? '../index.php';

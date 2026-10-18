@@ -1112,3 +1112,132 @@ button:focus-visible,
 .app-main:focus {
     outline: none;
 }
+
+/* Toast Popups
+   ========================================================================== */
+.toast-popup-container {
+    position: fixed;
+    top: 84px;
+    right: 24px;
+    z-index: 1080;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 420px;
+    width: calc(100% - 48px);
+    pointer-events: none;
+}
+
+.toast-popup {
+    pointer-events: auto;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px;
+    border-radius: 16px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    animation: toastSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes toastSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-16px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.toast-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    line-height: 1;
+    margin-top: 2px;
+}
+
+.toast-warning .toast-icon {
+    color: #eab308;
+}
+
+.toast-success .toast-icon {
+    color: #10b981;
+}
+
+.toast-error .toast-icon {
+    color: #ef4444;
+}
+
+.toast-content {
+    flex-grow: 1;
+}
+
+.toast-message {
+    margin: 0 0 10px;
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: #1e293b;
+    line-height: 1.4;
+}
+
+.toast-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.toast-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 14px;
+    font-size: 0.825rem;
+    font-weight: 600;
+    border-radius: 9999px;
+    text-decoration: none;
+    transition: all 0.15s ease;
+    cursor: pointer;
+    border: none;
+}
+
+.toast-btn-primary {
+    background: var(--primary-color);
+    color: #ffffff;
+}
+
+.toast-btn-primary:hover {
+    opacity: 0.92;
+    color: #ffffff;
+}
+
+.toast-btn-ghost {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.toast-btn-ghost:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+.toast-close {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    font-size: 0.85rem;
+    padding: 4px;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: color 0.15s;
+    margin-top: -2px;
+    margin-right: -4px;
+}
+
+.toast-close:hover {
+    color: #334155;
+}
+

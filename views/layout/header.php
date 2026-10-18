@@ -15,7 +15,7 @@ $totalPrice = $cartCtrl->getCartTotal($cartIp);
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ecomm Lab</title>
+    <title>Shoppn</title>
     <!-- Google Fonts: Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Bootstrap CSS -->
@@ -30,9 +30,9 @@ $totalPrice = $cartCtrl->getCartTotal($cartIp);
 
     <header class="custom-header">
         <!-- Logo -->
-        <a href="<?php echo $ROOT_DIR; ?>/index.php" class="brand-logo" aria-label="EcommLab home">
+        <a href="<?php echo $ROOT_DIR; ?>/index.php" class="brand-logo" aria-label="Shoppn home">
             <span class="brand-mark" aria-hidden="true"><i class="bi bi-bag-heart-fill"></i></span>
-            <span class="brand-name">Ecomm<span class="brand-accent">Lab</span></span>
+            <span class="brand-name">Shopp<span class="brand-accent">n</span></span>
         </a>
 
         <!-- Search Bar -->
@@ -45,13 +45,15 @@ $totalPrice = $cartCtrl->getCartTotal($cartIp);
 
         <!-- Cart Summary & Navigation Actions -->
         <nav class="header-actions" aria-label="Account">
-            <?php $itemWord = $totalItems == 1 ? 'item' : 'items'; ?>
-            <a href="<?php echo $ROOT_DIR; ?>/views/cart.php" class="cart-pill">
-                <i class="bi bi-cart3" aria-hidden="true"></i>
-                <span class="cart-count" aria-hidden="true"><?php echo $totalItems; ?></span>
-                <span class="cart-total" aria-hidden="true">$<?php echo number_format($totalPrice, 2); ?></span>
-                <span class="visually-hidden">Cart, <?php echo $totalItems . ' ' . $itemWord; ?>, $<?php echo number_format($totalPrice, 2); ?></span>
-            </a>
+            <?php if (!is_admin()): ?>
+                <?php $itemWord = $totalItems == 1 ? 'item' : 'items'; ?>
+                <a href="<?php echo $ROOT_DIR; ?>/views/cart.php" class="cart-pill">
+                    <i class="bi bi-cart3" aria-hidden="true"></i>
+                    <span class="cart-count" aria-hidden="true"><?php echo $totalItems; ?></span>
+                    <span class="cart-total" aria-hidden="true">$<?php echo number_format($totalPrice, 2); ?></span>
+                    <span class="visually-hidden">Cart, <?php echo $totalItems . ' ' . $itemWord; ?>, $<?php echo number_format($totalPrice, 2); ?></span>
+                </a>
+            <?php endif; ?>
 
             <?php if (is_logged_in()): ?>
                 <span class="header-greeting">Hi, <?php echo htmlspecialchars($_SESSION['customer_name'] ?? 'there'); ?></span>
@@ -64,26 +66,62 @@ $totalPrice = $cartCtrl->getCartTotal($cartIp);
     </header>
 
     <?php if (isset($_SESSION['warning']) || isset($_SESSION['success']) || isset($_SESSION['error'])): ?>
-        <div class="flash-area">
+        <div class="toast-popup-container" aria-live="polite" aria-atomic="true">
             <?php if (isset($_SESSION['warning'])): ?>
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                    <?php echo htmlspecialchars($_SESSION['warning']); unset($_SESSION['warning']); ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <div class="toast-popup toast-warning shadow-lg">
+                    <div class="toast-icon">
+                        <i class="bi bi-exclamation-circle-fill"></i>
+                    </div>
+                    <div class="toast-content">
+                        <p class="toast-message"><?php echo htmlspecialchars($_SESSION['warning']); unset($_SESSION['warning']); ?></p>
+                        <div class="toast-actions">
+                            <a href="<?php echo $ROOT_DIR; ?>/views/cart.php" class="toast-btn toast-btn-primary">
+                                <i class="bi bi-cart-fill me-1"></i> Go to cart
+                            </a>
+                            <button type="button" class="toast-btn toast-btn-ghost" onclick="this.closest('.toast-popup').remove();">
+                                Dismiss
+                            </button>
+                        </div>
+                    </div>
+                    <button type="button" class="toast-close" onclick="this.closest('.toast-popup').remove();" aria-label="Close">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
                 </div>
             <?php endif; ?>
+
             <?php if (isset($_SESSION['success'])): ?>
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <i class="bi bi-check-circle-fill me-2"></i>
-                    <?php echo htmlspecialchars($_SESSION['success']); unset($_SESSION['success']); ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <div class="toast-popup toast-success shadow-lg">
+                    <div class="toast-icon">
+                        <i class="bi bi-check-circle-fill"></i>
+                    </div>
+                    <div class="toast-content">
+                        <p class="toast-message"><?php echo htmlspecialchars($_SESSION['success']); unset($_SESSION['success']); ?></p>
+                        <div class="toast-actions">
+                            <a href="<?php echo $ROOT_DIR; ?>/views/cart.php" class="toast-btn toast-btn-primary">
+                                <i class="bi bi-cart-fill me-1"></i> View cart
+                            </a>
+                            <button type="button" class="toast-btn toast-btn-ghost" onclick="this.closest('.toast-popup').remove();">
+                                Continue
+                            </button>
+                        </div>
+                    </div>
+                    <button type="button" class="toast-close" onclick="this.closest('.toast-popup').remove();" aria-label="Close">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
                 </div>
             <?php endif; ?>
+
             <?php if (isset($_SESSION['error'])): ?>
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <i class="bi bi-x-circle-fill me-2"></i>
-                    <?php echo htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <div class="toast-popup toast-error shadow-lg">
+                    <div class="toast-icon">
+                        <i class="bi bi-x-circle-fill"></i>
+                    </div>
+                    <div class="toast-content">
+                        <p class="toast-message"><?php echo htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?></p>
+                    </div>
+                    <button type="button" class="toast-close" onclick="this.closest('.toast-popup').remove();" aria-label="Close">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
                 </div>
             <?php endif; ?>
         </div>

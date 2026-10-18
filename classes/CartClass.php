@@ -80,4 +80,34 @@ class CartClass extends Database
         }
         return $total;
     }
+
+    /**
+     * Remove an item from the cart.
+     *
+     * @param int $product_id
+     * @param string $ip
+     * @return bool
+     */
+    public function removeFromCart($product_id, $ip)
+    {
+        $sql = "DELETE FROM cart WHERE p_id = ? AND ip_add = ?";
+        return $this->execute($sql, [$product_id, $ip]);
+    }
+
+    /**
+     * Update quantity of an item in the cart.
+     *
+     * @param int $product_id
+     * @param int $new_qty
+     * @param string $ip
+     * @return bool
+     */
+    public function updateQty($product_id, $new_qty, $ip)
+    {
+        if ($new_qty < 1) {
+            return false;
+        }
+        $sql = "UPDATE cart SET qty = ? WHERE p_id = ? AND ip_add = ?";
+        return $this->execute($sql, [$new_qty, $product_id, $ip]);
+    }
 }
