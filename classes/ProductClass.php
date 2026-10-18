@@ -148,7 +148,7 @@ class ProductClass extends Database
         return is_array($result) ? $result : [];
     }
 
-    // Get featured products randomly with limit
+    // Get featured products with limit (stable order: latest first)
     public function getFeaturedProducts($limit = 6)
     {
         $limit = intval($limit);
@@ -159,7 +159,7 @@ class ProductClass extends Database
                 FROM products p 
                 LEFT JOIN categories c ON p.product_cat = c.cat_id 
                 LEFT JOIN brands b ON p.product_brand = b.brand_id 
-                ORDER BY RAND() LIMIT " . $limit;
+                ORDER BY p.product_id DESC LIMIT " . $limit;
         $result = $this->fetchAll($sql);
         return is_array($result) ? $result : [];
     }
