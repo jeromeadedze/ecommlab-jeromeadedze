@@ -44,10 +44,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $result = $controller->register($name, $email, $pass, $country, $city, $contact, $image);
 
     if ($result['success']) {
-        // Technically the lab says to log them in, but to do that we need the new ID.
-        // We will just redirect them to login page with a success message for now.
-        $_SESSION['success'] = 'Registration successful! Please login.';
-        header('Location: ../views/login.php');
+        $user = $result['user'];
+        $_SESSION['customer_id'] = $user['customer_id'];
+        $_SESSION['customer_name'] = $user['customer_name'];
+        $_SESSION['customer_email'] = $user['customer_email'];
+        $_SESSION['user_role'] = (int) $user['user_role'];
+
+        $_SESSION['success'] = 'Welcome, ' . htmlspecialchars($user['customer_name']) . '! Your account has been created.';
+        header('Location: ../index.php');
         exit;
     } else {
         $_SESSION['error'] = $result['error'];

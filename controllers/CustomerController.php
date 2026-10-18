@@ -31,7 +31,8 @@ class CustomerController
         
         $result = $this->customer->addCustomer($name, $email, $pass, $country, $city, $contact, $image);
         if ($result) {
-            return ['success' => true];
+            $user = $this->customer->getCustomerByEmail($email);
+            return ['success' => true, 'user' => $user];
         }
         return ['success' => false, 'error' => 'Registration failed'];
     }

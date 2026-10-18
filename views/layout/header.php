@@ -90,20 +90,27 @@ $totalPrice = $cartCtrl->getCartTotal($cartIp);
             <?php endif; ?>
 
             <?php if (isset($_SESSION['success'])): ?>
+                <?php 
+                $succMsg = $_SESSION['success'];
+                unset($_SESSION['success']);
+                $isCartSuccess = (stripos($succMsg, 'cart') !== false);
+                ?>
                 <div class="toast-popup toast-success shadow-lg">
                     <div class="toast-icon">
                         <i class="bi bi-check-circle-fill"></i>
                     </div>
                     <div class="toast-content">
-                        <p class="toast-message"><?php echo htmlspecialchars($_SESSION['success']); unset($_SESSION['success']); ?></p>
-                        <div class="toast-actions">
-                            <a href="<?php echo $ROOT_DIR; ?>/views/cart.php" class="toast-btn toast-btn-primary">
-                                <i class="bi bi-cart-fill me-1"></i> View cart
-                            </a>
-                            <button type="button" class="toast-btn toast-btn-ghost" onclick="this.closest('.toast-popup').remove();">
-                                Continue
-                            </button>
-                        </div>
+                        <p class="toast-message <?php echo !$isCartSuccess ? 'mb-0' : ''; ?>"><?php echo htmlspecialchars($succMsg); ?></p>
+                        <?php if ($isCartSuccess && !is_admin()): ?>
+                            <div class="toast-actions">
+                                <a href="<?php echo $ROOT_DIR; ?>/views/cart.php" class="toast-btn toast-btn-primary">
+                                    <i class="bi bi-cart-fill me-1"></i> View cart
+                                </a>
+                                <button type="button" class="toast-btn toast-btn-ghost" onclick="this.closest('.toast-popup').remove();">
+                                    Continue
+                                </button>
+                            </div>
+                        <?php endif; ?>
                     </div>
                     <button type="button" class="toast-close" onclick="this.closest('.toast-popup').remove();" aria-label="Close">
                         <i class="bi bi-x-lg"></i>
