@@ -1,7 +1,14 @@
 <?php
 // Ensure core is included if not already (header might be included directly by some views)
 require_once __DIR__ . '/../../core/core.php';
+require_once __DIR__ . '/../../controllers/CartController.php';
+
 $ROOT_DIR = defined('ROOT_DIR') ? ROOT_DIR : '..';
+
+$cartCtrl = new CartController();
+$cartIp = get_ip();
+$totalItems = $cartCtrl->getCartCount($cartIp);
+$totalPrice = $cartCtrl->getCartTotal($cartIp);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,27 +26,67 @@ $ROOT_DIR = defined('ROOT_DIR') ? ROOT_DIR : '..';
     <link rel="stylesheet" href="<?php echo $ROOT_DIR; ?>/css/style.css">
 </head>
 <body>
-    <header class="custom-header d-flex justify-content-between align-items-center">
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <header class="custom-header">
         <!-- Logo -->
-        <div>
-            <a href="<?php echo $ROOT_DIR; ?>/index.php" class="brand-logo">Logo</a>
-        </div>
+        <a href="<?php echo $ROOT_DIR; ?>/index.php" class="brand-logo" aria-label="EcommLab home">
+            <span class="brand-mark" aria-hidden="true"><i class="bi bi-bag-heart-fill"></i></span>
+            <span class="brand-name">Ecomm<span class="brand-accent">Lab</span></span>
+        </a>
 
         <!-- Search Bar -->
-        <form action="<?php echo $ROOT_DIR; ?>/views/search_results.php" method="GET" class="search-bar-container m-0">
-            <i class="bi bi-search"></i>
-            <input type="text" name="user_query" placeholder="Search products, brands, tags..." required value="<?php echo htmlspecialchars($_GET['user_query'] ?? ''); ?>">
+        <form action="<?php echo $ROOT_DIR; ?>/views/search_results.php" method="GET" class="search-bar-container" role="search">
+            <i class="bi bi-search" aria-hidden="true"></i>
+            <label for="site-search" class="visually-hidden">Search products</label>
+            <input type="search" id="site-search" name="user_query" placeholder="Search products, brands, tags…" required value="<?php echo htmlspecialchars($_GET['user_query'] ?? ''); ?>">
+            <button type="submit" class="search-submit">Search</button>
         </form>
-        <!-- Navigation Actions -->
-        <div class="d-flex align-items-center gap-3">
+
+        <!-- Cart Summary & Navigation Actions -->
+        <nav class="header-actions" aria-label="Account">
+            <?php $itemWord = $totalItems == 1 ? 'item' : 'items'; ?>
+            <a href="<?php echo $ROOT_DIR; ?>/views/cart.php" class="cart-pill">
+                <i class="bi bi-cart3" aria-hidden="true"></i>
+                <span class="cart-count" aria-hidden="true"><?php echo $totalItems; ?></span>
+                <span class="cart-total" aria-hidden="true">$<?php echo number_format($totalPrice, 2); ?></span>
+                <span class="visually-hidden">Cart, <?php echo $totalItems . ' ' . $itemWord; ?>, $<?php echo number_format($totalPrice, 2); ?></span>
+            </a>
+
             <?php if (is_logged_in()): ?>
-                <span class="text-muted fw-medium">Hi, <?php echo htmlspecialchars($_SESSION['customer_name'] ?? 'User'); ?>!</span>
-                <a href="<?php echo $ROOT_DIR; ?>/logout.php" class="btn btn-outline-danger btn-sm border-0 fw-bold">Logout</a>
+                <span class="header-greeting">Hi, <?php echo htmlspecialchars($_SESSION['customer_name'] ?? 'there'); ?></span>
+                <a href="<?php echo $ROOT_DIR; ?>/logout.php" class="btn-ghost">Log out</a>
             <?php else: ?>
-                <a href="<?php echo $ROOT_DIR; ?>/views/login.php" class="btn-light-purple">Login</a>
-                <a href="<?php echo $ROOT_DIR; ?>/views/register.php" class="btn-primary-custom text-decoration-none">Register</a>
+                <a href="<?php echo $ROOT_DIR; ?>/views/login.php" class="btn-ghost">Log in</a>
+                <a href="<?php echo $ROOT_DIR; ?>/views/register.php" class="btn-primary-custom">Sign up</a>
+            <?php endif; ?>
+        </nav>
+    </header>
+
+    <?php if (isset($_SESSION['warning']) || isset($_SESSION['success']) || isset($_SESSION['error'])): ?>
+        <div class="flash-area">
+            <?php if (isset($_SESSION['warning'])): ?>
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    <?php echo htmlspecialchars($_SESSION['warning']); unset($_SESSION['warning']); ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
+            <?php if (isset($_SESSION['success'])): ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle-fill me-2"></i>
+                    <?php echo htmlspecialchars($_SESSION['success']); unset($_SESSION['success']); ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
+            <?php if (isset($_SESSION['error'])): ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-x-circle-fill me-2"></i>
+                    <?php echo htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
             <?php endif; ?>
         </div>
-    </header>
+    <?php endif; ?>
     
-    <main class="d-flex w-100">
+    <main id="main" class="app-main" tabindex="-1">

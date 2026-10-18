@@ -69,6 +69,19 @@ function get_user_id() {
     return $_SESSION['customer_id'] ?? null;
 }
 
+// Helper to get client IP address for guest cart tracking
+function get_ip() {
+    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+        return $_SERVER['HTTP_CLIENT_IP'];
+    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        // May contain a comma-separated list of IPs
+        $ipList = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+        return trim($ipList[0]);
+    } else {
+        return $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1';
+    }
+}
+
 // TODO: session timeout
 // Track the time of the last request. If too much time has passed
 // since then, log the user out automatically.
