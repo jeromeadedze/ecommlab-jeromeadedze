@@ -23,7 +23,7 @@ $totalPrice = $cartCtrl->getCartTotal($cartIp);
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="<?php echo $ROOT_DIR; ?>/css/style.css">
+    <link rel="stylesheet" href="<?php echo $ROOT_DIR; ?>/css/style.css?v=<?php echo filemtime(__DIR__ . '/../../css/style.css'); ?>">
 </head>
 <body>
     <a href="#main" class="skip-link">Skip to content</a>
