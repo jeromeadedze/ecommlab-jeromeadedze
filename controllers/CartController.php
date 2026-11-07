@@ -70,4 +70,20 @@ class CartController
     {
         return $this->cartModel->updateQty($product_id, $new_qty, $ip);
     }
+
+    /**
+     * Convert the cart into a paid order (returns order_id or false)
+     */
+    public function processPayment($customer_id, $ip, $reference, $amount)
+    {
+        return $this->cartModel->processPayment($customer_id, $ip, $reference, $amount);
+    }
+
+    /**
+     * Get an order with its items and total
+     */
+    public function getOrderById($order_id)
+    {
+        return $this->cartModel->getOrderById($order_id);
+    }
 }

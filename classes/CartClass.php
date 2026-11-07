@@ -110,4 +110,106 @@ class CartClass extends Database
         $sql = "UPDATE cart SET qty = ? WHERE p_id = ? AND ip_add = ?";
         return $this->execute($sql, [$new_qty, $product_id, $ip]);
     }
+
+    /**
+     * Turn the cart into a paid order, inside a single DB transaction:
+     *   1. generate an invoice number
+     *   2. insert the order
+     *   3. copy cart rows into orderdetails
+     *   4. record the payment
+     *   5. empty the cart
+     * If any step fails, everything is rolled back.
+     *
+     * @param int    $customer_id
+     * @param string $ip
+     * @param string $reference Paystack transaction reference
+     * @param float  $amount    Amount paid (in cedis, not pesewas)
+     * @return int|false The new order_id, or false on failure
+     */
+    public function processPayment($customer_id, $ip, $reference, $amount)
+    {
+        $conn = $this->getConnection();
+
+        try {
+            $conn->beginTransaction();
+
+            $cartItems = $this->getCartItems($ip);
+            if (empty($cartItems)) {
+                throw new Exception("Cart is empty.");
+            }
+
+            // 1. Invoice number
+            $invoice_no = mt_rand(100000, 999999);
+
+            // 2. Order
+            $this->execute(
+                "INSERT INTO orders (customer_id, invoice_no, order_date, order_status)
+                 VALUES (?, ?, CURDATE(), 'paid')",
+                [$customer_id, $invoice_no]
+            );
+            $order_id = (int)$this->getLastInsertId();
+
+            // 3. Copy cart rows into orderdetails
+            foreach ($cartItems as $item) {
+                $this->execute(
+                    "INSERT INTO orderdetails (order_id, product_id, qty) VALUES (?, ?, ?)",
+                    [$order_id, $item['p_id'], $item['qty']]
+                );
+            }
+
+            // Record the payment against the order
+            $this->execute(
+                "INSERT INTO payment (amt, customer_id, order_id, currency, payment_date)
+                 VALUES (?, ?, ?, 'GHS', CURDATE())",
+                [$amount, $customer_id, $order_id]
+            );
+
+            // 4. Empty the cart
+            $this->execute("DELETE FROM cart WHERE ip_add = ?", [$ip]);
+
+            $conn->commit();
+
+            // 5. Return the new order id
+            return $order_id;
+        } catch (Exception $e) {
+            if ($conn->inTransaction()) {
+                $conn->rollBack();
+            }
+            error_log("processPayment failed (ref $reference): " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Fetch an order with its line items and product names.
+     *
+     * @param int $order_id
+     * @return array|null ['order' => row, 'items' => rows, 'total' => float]
+     */
+    public function getOrderById($order_id)
+    {
+        $order = $this->fetchOne(
+            "SELECT o.order_id, o.customer_id, o.invoice_no, o.order_date, o.order_status
+             FROM orders o WHERE o.order_id = ?",
+            [$order_id]
+        );
+        if (!$order) {
+            return null;
+        }
+
+        $items = $this->fetchAll(
+            "SELECT od.product_id, od.qty, p.product_title, p.product_price
+             FROM orderdetails od
+             JOIN products p ON od.product_id = p.product_id
+             WHERE od.order_id = ?",
+            [$order_id]
+        );
+
+        $total = 0.0;
+        foreach ($items as $item) {
+            $total += $item['qty'] * (float)$item['product_price'];
+        }
+
+        return ['order' => $order, 'items' => $items, 'total' => $total];
+    }
 }

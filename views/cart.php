@@ -116,7 +116,7 @@ $unitCount = array_sum(array_map(fn($i) => (int)$i['qty'], $cartItems));
                 <span>Total</span>
                 <span>$<?php echo number_format($cartTotal, 2); ?></span>
             </div>
-            <a href="<?php echo $ROOT_DIR; ?>/views/checkout.php" class="btn-primary-custom btn-lg-custom">
+            <a href="<?php echo $ROOT_DIR; ?>/views/payment.php" class="btn-primary-custom btn-lg-custom">
                 Checkout <i class="bi bi-arrow-right" aria-hidden="true"></i>
             </a>
             <a href="<?php echo $ROOT_DIR; ?>/index.php" class="continue-link">Continue shopping</a>
