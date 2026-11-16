@@ -59,7 +59,9 @@ if ($paid < (int)round($total * 100) || ($result['data']['currency'] ?? '') !== 
 // Record the order
 $order_id = $cartController->processPayment($customer_id, $ip, $reference, $paid / 100);
 if (!$order_id) {
-    payment_fail("Payment succeeded but the order could not be saved. Contact support with reference $reference.");
+    $detail = !empty($_SESSION['db_error']) ? " (" . $_SESSION['db_error'] . ")" : "";
+    unset($_SESSION['db_error']);
+    payment_fail("Payment succeeded but the order could not be saved{$detail}. Contact support with reference $reference.");
 }
 
 header("Location: ../views/payment_success.php?order_id=" . $order_id);

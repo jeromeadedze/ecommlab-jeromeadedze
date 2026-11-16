@@ -131,10 +131,19 @@ class CartClass extends Database
 
             $invoice_no = mt_rand(100000, 999999);
 
-            $this->execute(
-                "INSERT INTO orders (customer_id, invoice_no, order_date, order_status) VALUES (?, ?, CURDATE(), 'paid')",
-                [$customer_id, $invoice_no]
-            );
+            // Support both standard shoppn schema and shared schema with drop_location
+            $hasDropLoc = (bool)$this->fetchOne("SHOW COLUMNS FROM orders LIKE 'drop_location'");
+            if ($hasDropLoc) {
+                $this->execute(
+                    "INSERT INTO orders (customer_id, invoice_no, order_date, order_status, drop_location) VALUES (?, ?, CURDATE(), 'paid', 'Online Order')",
+                    [$customer_id, $invoice_no]
+                );
+            } else {
+                $this->execute(
+                    "INSERT INTO orders (customer_id, invoice_no, order_date, order_status) VALUES (?, ?, CURDATE(), 'paid')",
+                    [$customer_id, $invoice_no]
+                );
+            }
             $order_id = (int)$this->getLastInsertId();
 
             $this->execute(
@@ -154,6 +163,9 @@ class CartClass extends Database
         } catch (Exception $e) {
             if ($pdo->inTransaction()) {
                 $pdo->rollBack();
+            }
+            if (session_status() === PHP_SESSION_ACTIVE) {
+                $_SESSION['db_error'] = $e->getMessage();
             }
             error_log("processPayment failed (ref $reference): " . $e->getMessage());
             return false;
