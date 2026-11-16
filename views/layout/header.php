@@ -54,6 +54,10 @@ $totalPrice = $cartCtrl->getCartTotal($cartIp);
                 </a>
             <?php endif; ?>
 
+            <?php if (is_logged_in() && !is_admin()): ?>
+                <a href="<?php echo $ROOT_DIR; ?>/views/orders.php" class="btn-ghost"><i class="bi bi-receipt" aria-hidden="true"></i> My orders</a>
+            <?php endif; ?>
+
             <?php if (is_logged_in()): ?>
                 <span class="header-greeting">Hi, <?php echo htmlspecialchars($_SESSION['customer_name'] ?? 'there'); ?></span>
                 <a href="<?php echo $ROOT_DIR; ?>/logout.php" class="btn-ghost">Log out</a>

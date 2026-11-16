@@ -110,4 +110,92 @@ class CartClass extends Database
         $sql = "UPDATE cart SET qty = ? WHERE p_id = ? AND ip_add = ?";
         return $this->execute($sql, [$new_qty, $product_id, $ip]);
     }
+
+    /**
+     * Turn the cart for an IP into a paid order, inside one DB transaction.
+     * 1. generate invoice number  2. insert order  3. copy cart rows into
+     * orderdetails  4. record payment  5. empty cart  6. return order_id.
+     *
+     * @return int|false new order_id, or false on failure
+     */
+    public function processPayment($customer_id, $ip, $reference, $amount)
+    {
+        $items = $this->getCartItems($ip);
+        if (empty($items)) {
+            return false;
+        }
+
+        $pdo = $this->getConnection();
+        try {
+            $pdo->beginTransaction();
+
+            $invoice_no = mt_rand(100000, 999999);
+
+            $this->execute(
+                "INSERT INTO orders (customer_id, invoice_no, order_date, order_status) VALUES (?, ?, CURDATE(), 'paid')",
+                [$customer_id, $invoice_no]
+            );
+            $order_id = (int)$this->getLastInsertId();
+
+            $this->execute(
+                "INSERT INTO orderdetails (order_id, product_id, qty) SELECT ?, p_id, qty FROM cart WHERE ip_add = ?",
+                [$order_id, $ip]
+            );
+
+            $this->execute(
+                "INSERT INTO payment (amt, customer_id, order_id, currency, payment_date) VALUES (?, ?, ?, 'GHS', CURDATE())",
+                [$amount, $customer_id, $order_id]
+            );
+
+            $this->execute("DELETE FROM cart WHERE ip_add = ?", [$ip]);
+
+            $pdo->commit();
+            return $order_id;
+        } catch (Exception $e) {
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+            error_log("processPayment failed (ref $reference): " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Fetch an order with its line items (joined with product names/prices).
+     * Only returns rows belonging to $customer_id when one is supplied.
+     *
+     * @return array rows (empty if not found)
+     */
+    public function getOrderById($order_id, $customer_id = null)
+    {
+        $sql = "SELECT o.order_id, o.invoice_no, o.order_date, o.order_status, o.customer_id,
+                       od.product_id, od.qty, p.product_title, p.product_price
+                FROM orders o
+                JOIN orderdetails od ON od.order_id = o.order_id
+                JOIN products p ON p.product_id = od.product_id
+                WHERE o.order_id = ?";
+        $params = [$order_id];
+        if ($customer_id !== null) {
+            $sql .= " AND o.customer_id = ?";
+            $params[] = $customer_id;
+        }
+        return $this->fetchAll($sql, $params);
+    }
+
+    /**
+     * List all orders for a customer with their totals, newest first.
+     */
+    public function getOrdersByCustomer($customer_id)
+    {
+        $sql = "SELECT o.order_id, o.invoice_no, o.order_date, o.order_status,
+                       SUM(od.qty) AS item_count, SUM(od.qty * p.product_price) AS total
+                FROM orders o
+                JOIN orderdetails od ON od.order_id = o.order_id
+                JOIN products p ON p.product_id = od.product_id
+                WHERE o.customer_id = ?
+                GROUP BY o.order_id, o.invoice_no, o.order_date, o.order_status
+                ORDER BY o.order_id DESC";
+        return $this->fetchAll($sql, [$customer_id]);
+    }
+
 }

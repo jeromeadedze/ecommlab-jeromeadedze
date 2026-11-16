@@ -70,4 +70,29 @@ class CartController
     {
         return $this->cartModel->updateQty($product_id, $new_qty, $ip);
     }
+
+    /**
+     * Record a verified payment as an order
+     */
+    public function processPayment($customer_id, $ip, $reference, $amount)
+    {
+        return $this->cartModel->processPayment($customer_id, $ip, $reference, $amount);
+    }
+
+    /**
+     * Get an order with its line items
+     */
+    public function getOrderById($order_id, $customer_id = null)
+    {
+        return $this->cartModel->getOrderById($order_id, $customer_id);
+    }
+
+    /**
+     * List a customer's orders
+     */
+    public function getOrdersByCustomer($customer_id)
+    {
+        return $this->cartModel->getOrdersByCustomer($customer_id);
+    }
+
 }

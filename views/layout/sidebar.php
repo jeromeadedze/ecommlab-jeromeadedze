@@ -55,6 +55,15 @@ define('SHOP_LAYOUT', true);
             <?php endforeach; ?>
         </ul>
     </nav>
+    <!-- Account -->
+    <?php if (is_logged_in() && !is_admin()): ?>
+    <nav class="sidebar-group" aria-labelledby="sidebar-account">
+        <h2 class="sidebar-title" id="sidebar-account">Account</h2>
+        <ul class="sidebar-list">
+            <li><a href="<?php echo $ROOT_DIR; ?>/views/orders.php" class="sidebar-link">My orders</a></li>
+        </ul>
+    </nav>
+    <?php endif; ?>
 </aside>
 
 <section class="shop-content">
