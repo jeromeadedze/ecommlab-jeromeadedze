@@ -25,7 +25,7 @@ $total = $cartCtrl->getCartTotal($cartIp);
                     <tr>
                         <th>Product</th>
                         <th class="text-center">Qty</th>
-                        <th class="text-end">Unit price</th>
+                        <th class="text-end d-none d-sm-table-cell">Unit price</th>
                         <th class="text-end">Subtotal</th>
                     </tr>
                 </thead>
@@ -34,25 +34,30 @@ $total = $cartCtrl->getCartTotal($cartIp);
                         <tr>
                             <td><?php echo htmlspecialchars($item['product_title']); ?></td>
                             <td class="text-center"><?php echo (int)$item['qty']; ?></td>
-                            <td class="text-end">GHS <?php echo number_format($item['product_price'], 2); ?></td>
-                            <td class="text-end">GHS <?php echo number_format($item['qty'] * $item['product_price'], 2); ?></td>
+                            <td class="text-end text-nowrap d-none d-sm-table-cell">GHS <?php echo number_format($item['product_price'], 2); ?></td>
+                            <td class="text-end text-nowrap">GHS <?php echo number_format($item['qty'] * $item['product_price'], 2); ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th colspan="3" class="text-end">Total</th>
-                        <th class="text-end">GHS <?php echo number_format($total, 2); ?></th>
+                        <th colspan="2" class="text-end">Total</th>
+                        <td class="d-none d-sm-table-cell"></td>
+                        <th class="text-end text-nowrap">GHS <?php echo number_format($total, 2); ?></th>
                     </tr>
                 </tfoot>
             </table>
         </div>
     </div>
 
-    <button type="button" class="btn-primary-custom btn-lg-custom" onclick="payWithPaystack()">
-        Pay GHS <?php echo number_format($total, 2); ?> with Paystack
-    </button>
-    <a href="<?php echo $ROOT_DIR; ?>/views/cart.php" class="continue-link">Back to cart</a>
+    <div class="action-row">
+        <button type="button" class="btn-primary-custom btn-lg-custom" onclick="payWithPaystack()">
+            <i class="bi bi-lock-fill" aria-hidden="true"></i> Pay <span class="text-nowrap">GHS <?php echo number_format($total, 2); ?></span> with Paystack
+        </button>
+        <a href="<?php echo $ROOT_DIR; ?>/views/cart.php" class="btn-outline-custom btn-lg-custom">
+            <i class="bi bi-arrow-left" aria-hidden="true"></i> Back to cart
+        </a>
+    </div>
 
     <script src="https://js.paystack.co/v1/inline.js"></script>
     <script>

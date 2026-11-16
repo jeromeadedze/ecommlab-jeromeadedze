@@ -9,16 +9,21 @@ $ROOT_DIR = defined('ROOT_DIR') ? ROOT_DIR : '..';
 $currentCat = isset($_GET['cat']) ? intval($_GET['cat']) : null;
 $currentBrand = isset($_GET['brand']) ? intval($_GET['brand']) : null;
 
+// Product listings (home and search) are where browsing filters belong on small screens.
+// Elsewhere (cart, product, checkout) the sidebar only shows at desktop width.
+$currentScript = basename($_SERVER['SCRIPT_NAME'] ?? '');
+$isListingPage = in_array($currentScript, ['index.php', 'home.php', 'search_results.php'], true);
+
 // Tells footer.php to close the shop layout wrappers opened below
 define('SHOP_LAYOUT', true);
 ?>
 <div class="shop-layout">
-<aside class="custom-sidebar" aria-label="Browse">
+<aside class="custom-sidebar<?php echo $isListingPage ? '' : ' custom-sidebar--desktop-only'; ?>" aria-label="Browse">
     <!-- Categories List -->
     <nav class="sidebar-group" aria-labelledby="sidebar-categories">
         <h2 class="sidebar-title" id="sidebar-categories">Categories</h2>
         <ul class="sidebar-list">
-            <?php $allActive = $currentCat === null && $currentBrand === null && !isset($_GET['user_query']); ?>
+            <?php $allActive = in_array($currentScript, ['index.php', 'home.php'], true) && $currentCat === null && $currentBrand === null; ?>
             <li>
                 <a href="<?php echo $ROOT_DIR; ?>/index.php"
                    class="sidebar-link <?php echo $allActive ? 'active' : ''; ?>"

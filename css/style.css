@@ -86,7 +86,7 @@ button:focus-visible,
 .skip-link {
     position: absolute;
     top: 8px;
-    left: 8px;
+    inset-inline-start: 8px;
     z-index: 1100;
     padding: 8px 16px;
     border-radius: var(--radius-sm);
@@ -115,7 +115,7 @@ button:focus-visible,
     align-items: center;
     flex-wrap: wrap;
     gap: 12px 24px;
-    min-height: var(--header-height);
+    min-height: 72px; /* --header-height is measured from this element, so never read it here */
 }
 
 .brand-logo {
@@ -157,7 +157,8 @@ button:focus-visible,
     background-color: var(--bg-color);
     border: 1px solid var(--border-color);
     border-radius: 999px;
-    padding: 0 6px 0 16px;
+    padding-block: 0;
+    padding-inline: 16px 6px;
     transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
 }
 .search-bar-container:focus-within {
@@ -192,26 +193,28 @@ button:focus-visible,
     color: #fff;
     font-size: 0.875rem;
     font-weight: 600;
+    transition: scale 0.15s ease-out;
 }
 
 .header-actions {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-left: auto;
+    margin-inline-start: auto;
 }
 
 .cart-pill {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 6px 14px 6px 12px;
+    padding-block: 6px;
+    padding-inline: 12px 14px;
     border-radius: 999px;
     background: var(--primary-light);
     color: var(--primary-color);
     text-decoration: none;
     font-weight: 600;
-    transition: background-color 0.15s ease;
+    transition: background-color 0.15s ease, scale 0.15s ease-out;
 }
 .cart-pill .bi {
     font-size: 1.15rem;
@@ -265,12 +268,20 @@ button:focus-visible,
         display: none;
     }
 }
+/* Phones: tighten the logo row so the wordmark and the actions share one line */
 @media (max-width: 479.98px) {
+    .custom-header {
+        column-gap: 8px;
+    }
+    .brand-logo {
+        font-size: 1.125rem;
+    }
     .cart-total {
         display: none;
     }
-    .brand-name {
-        display: none;
+    .cart-pill {
+        gap: 6px;
+        padding-inline: 8px 10px;
     }
     .header-actions {
         gap: 4px;
@@ -278,7 +289,21 @@ button:focus-visible,
     .header-actions .btn-light-purple,
     .header-actions .btn-primary-custom,
     .header-actions .btn-ghost {
-        padding: 8px 12px;
+        --btn-px: 10px;
+        padding-block: 8px;
+        font-size: 0.875rem;
+    }
+    /* "My orders" becomes icon-only; the label stays for screen readers */
+    .header-actions .btn-ghost:has(.header-btn-label) {
+        padding-inline: var(--btn-px);
+    }
+    .header-btn-label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
     }
 }
 
@@ -293,7 +318,8 @@ button:focus-visible,
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 9px 18px;
+    --btn-px: 18px;
+    padding: 9px var(--btn-px);
     border-radius: var(--radius-sm);
     font-weight: 600;
     font-size: 0.95rem;
@@ -324,12 +350,29 @@ button:focus-visible,
 }
 
 .btn-lg-custom {
-    padding: 13px 24px;
+    --btn-px: 24px;
+    padding: 13px var(--btn-px);
     font-size: 1rem;
 }
 .btn-sm-custom {
-    padding: 7px 12px;
+    --btn-px: 12px;
+    padding: 7px var(--btn-px);
     font-size: 0.875rem;
+}
+
+/* Optical alignment: the icon side gets 2px less padding.
+   Text nodes don't count as children, so trailing icons opt in with .icon-end */
+.btn-primary-custom:has(> .bi:first-child):not(.icon-end),
+.btn-light-purple:has(> .bi:first-child):not(.icon-end),
+.btn-ghost:has(> .bi:first-child):not(.icon-end),
+.btn-outline-custom:has(> .bi:first-child):not(.icon-end) {
+    padding-inline-start: calc(var(--btn-px) - 2px);
+}
+.btn-primary-custom.icon-end,
+.btn-light-purple.icon-end,
+.btn-ghost.icon-end,
+.btn-outline-custom.icon-end {
+    padding-inline-end: calc(var(--btn-px) - 2px);
 }
 
 @media (hover: hover) {
@@ -353,9 +396,23 @@ button:focus-visible,
     .btn-primary-custom:not(:disabled):active,
     .btn-light-purple:not(:disabled):active,
     .btn-ghost:not(:disabled):active,
-    .btn-outline-custom:not(:disabled):active {
+    .btn-outline-custom:not(:disabled):active,
+    .search-submit:not(:disabled):active,
+    .cart-pill:active,
+    .toast-btn:not(:disabled):active {
         scale: 0.96;
     }
+}
+
+/* These controls draw their own pressed state */
+.btn-primary-custom,
+.btn-light-purple,
+.btn-ghost,
+.btn-outline-custom,
+.search-submit,
+.cart-pill,
+.toast-btn {
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* Violet theme overrides for Bootstrap components */
@@ -366,16 +423,22 @@ button:focus-visible,
     border-color: var(--primary-color) !important;
     color: #fff !important;
 }
-.btn-primary:hover {
-    background-color: var(--primary-hover) !important;
-    border-color: var(--primary-hover) !important;
-    color: #fff !important;
+@media (hover: hover) {
+    .btn-primary:hover {
+        background-color: var(--primary-hover) !important;
+        border-color: var(--primary-hover) !important;
+        color: #fff !important;
+    }
+    .btn-outline-primary:hover {
+        background-color: var(--primary-color) !important;
+        border-color: var(--primary-color) !important;
+        color: #fff !important;
+    }
 }
 .btn-outline-primary {
     color: var(--primary-color) !important;
     border-color: var(--primary-color) !important;
 }
-.btn-outline-primary:hover,
 .btn-outline-primary:active,
 .btn-outline-primary:focus {
     background-color: var(--primary-color) !important;
@@ -450,7 +513,7 @@ button:focus-visible,
 }
 .custom-checkbox .form-check-label {
     font-size: 1rem;
-    margin-left: 8px;
+    margin-inline-start: 8px;
     color: var(--text-secondary);
 }
 .custom-checkbox .form-check-input:checked ~ .form-check-label {
@@ -522,7 +585,7 @@ button:focus-visible,
     overflow-y: auto;
     overscroll-behavior: contain;
     background-color: var(--surface);
-    border-right: 1px solid var(--border-color);
+    border-inline-end: 1px solid var(--border-color);
     align-self: stretch;
     padding: 28px 16px;
 }
@@ -591,7 +654,7 @@ button:focus-visible,
         flex: none;
         max-height: none;
         overflow: visible;
-        border-right: none;
+        border-inline-end: none;
         border-bottom: 1px solid var(--border-color);
         padding: 16px;
     }
@@ -614,6 +677,10 @@ button:focus-visible,
     }
     .sidebar-link.active {
         border-color: var(--primary-color);
+    }
+    /* Off listing pages, the filters would push the page's own content below the fold */
+    .custom-sidebar--desktop-only {
+        display: none;
     }
     .shop-content {
         padding: 24px 16px;
@@ -650,7 +717,7 @@ button:focus-visible,
     gap: 8px;
     padding: 6px;
     border: 1px dashed var(--border-strong);
-    border-radius: var(--radius);
+    border-radius: 15px; /* 8px buttons + 6px padding + 1px border */
     background: var(--surface);
 }
 .admin-toolbar-label {
@@ -721,6 +788,13 @@ button:focus-visible,
     color: var(--text-secondary);
     font-size: 2rem;
 }
+/* Concentric with the frames that hold them */
+.product-card-media .image-placeholder {
+    border-radius: 4px;
+}
+.cart-thumb .image-placeholder {
+    border-radius: 3px; /* 8px frame - 4px padding - 1px border */
+}
 
 .product-card-body {
     flex: 1;
@@ -740,7 +814,7 @@ button:focus-visible,
 }
 .product-meta span + span::before {
     content: "·";
-    margin-right: 8px;
+    margin-inline-end: 8px;
 }
 
 .product-card-title {
@@ -884,8 +958,10 @@ button:focus-visible,
 .product-detail-meta a {
     color: var(--text-secondary);
 }
-.product-detail-meta a:hover {
-    color: var(--primary-color);
+@media (hover: hover) {
+    .product-detail-meta a:hover {
+        color: var(--primary-color);
+    }
 }
 
 .detail-section {
@@ -1023,12 +1099,16 @@ button:focus-visible,
 .cart-table-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 16px;
     padding: 16px;
     border-top: 1px solid var(--border-color);
 }
 .btn-danger-ghost {
     color: var(--danger-color);
+}
+/* The borderless remove action sits apart from the outlined update button */
+.cart-table-actions .btn-danger-ghost {
+    margin-inline-start: auto;
 }
 @media (hover: hover) {
     .btn-danger-ghost:hover {
@@ -1117,8 +1197,8 @@ button:focus-visible,
    ========================================================================== */
 .toast-popup-container {
     position: fixed;
-    top: 84px;
-    right: 24px;
+    top: calc(var(--header-height) + 12px);
+    inset-inline-end: 24px;
     z-index: 1080;
     display: flex;
     flex-direction: column;
@@ -1134,21 +1214,28 @@ button:focus-visible,
     align-items: flex-start;
     gap: 14px;
     padding: 16px;
-    border-radius: 16px;
+    border-radius: var(--radius-lg);
     background: #ffffff;
     border: 1px solid rgba(0, 0, 0, 0.08);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-    animation: toastSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    box-shadow: var(--shadow-md);
+    animation: toastFadeIn 0.3s ease-out both;
+}
+@media (prefers-reduced-motion: no-preference) {
+    .toast-popup {
+        animation-name: toastSlideIn;
+    }
 }
 
+@keyframes toastFadeIn {
+    from {
+        opacity: 0;
+    }
+}
 @keyframes toastSlideIn {
     from {
         opacity: 0;
-        transform: translateY(-16px) scale(0.96);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
+        filter: blur(4px);
+        translate: 0 -12px;
     }
 }
 
@@ -1198,7 +1285,7 @@ button:focus-visible,
     font-weight: 600;
     border-radius: 9999px;
     text-decoration: none;
-    transition: all 0.15s ease;
+    transition: background-color 0.15s ease, color 0.15s ease, opacity 0.15s ease, scale 0.15s ease-out;
     cursor: pointer;
     border: none;
 }
@@ -1208,19 +1295,23 @@ button:focus-visible,
     color: #ffffff;
 }
 
-.toast-btn-primary:hover {
-    opacity: 0.92;
-    color: #ffffff;
-}
-
 .toast-btn-ghost {
     background: #f1f5f9;
     color: #475569;
 }
 
-.toast-btn-ghost:hover {
-    background: #e2e8f0;
-    color: #1e293b;
+@media (hover: hover) {
+    .toast-btn-primary:hover {
+        opacity: 0.92;
+        color: #ffffff;
+    }
+    .toast-btn-ghost:hover {
+        background: #e2e8f0;
+        color: #1e293b;
+    }
+    .toast-close:hover {
+        color: #334155;
+    }
 }
 
 .toast-close {
@@ -1234,10 +1325,38 @@ button:focus-visible,
     border-radius: 6px;
     transition: color 0.15s;
     margin-top: -2px;
-    margin-right: -4px;
+    margin-inline-end: -4px;
 }
 
-.toast-close:hover {
-    color: #334155;
+/* Content images: neutral 1px edge that never tints the photo */
+.img-outline {
+    outline: 1px solid oklch(0 0 0 / 0.1);
+    outline-offset: -1px;
 }
 
+/* Row of action buttons (payment / receipt pages) */
+.action-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+}
+/* Long labels (amounts) wrap instead of running off narrow screens */
+.action-row > * {
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
+}
+@media (max-width: 575.98px) {
+    .action-row > * {
+        flex: 1 1 100%;
+    }
+}
+
+/* Phones: tighter cell padding so order and receipt tables fit without side-scrolling */
+@media (max-width: 575.98px) {
+    .surface-card .table > :not(caption) > * > * {
+        padding-inline: 6px;
+    }
+}

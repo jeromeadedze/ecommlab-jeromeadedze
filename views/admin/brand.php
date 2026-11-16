@@ -130,9 +130,9 @@ require_once __DIR__ . "/../layout/header.php";
                 <table class="table table-striped table-hover mb-0">
                     <thead>
                         <tr>
-                            <th># ID</th>
+                            <th class="d-none d-sm-table-cell"># ID</th>
                             <th>Brand Name</th>
-                            <th>Category</th>
+                            <th class="d-none d-md-table-cell">Category</th>
                             <th class="text-end pe-3">Action</th>
                         </tr>
                     </thead>
@@ -140,9 +140,9 @@ require_once __DIR__ . "/../layout/header.php";
                         <?php if (!empty($brands)): ?>
                             <?php foreach ($brands as $brand): ?>
                                 <tr>
-                                    <td><?php echo htmlspecialchars($brand['brand_id']); ?></td>
+                                    <td class="d-none d-sm-table-cell"><?php echo htmlspecialchars($brand['brand_id']); ?></td>
                                     <td><?php echo htmlspecialchars($brand['brand_name']); ?></td>
-                                    <td><?php echo htmlspecialchars($brand['category_name'] ?: 'None'); ?></td>
+                                    <td class="d-none d-md-table-cell"><?php echo htmlspecialchars($brand['category_name'] ?: 'None'); ?></td>
                                     <td class="text-end pe-3">
                                         <a href="brand.php?edit_id=<?php echo $brand['brand_id']; ?>" class="btn btn-sm btn-outline-primary me-1">
                                             <i class="bi bi-pencil"></i> Edit

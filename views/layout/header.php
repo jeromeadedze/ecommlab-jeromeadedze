@@ -55,7 +55,7 @@ $totalPrice = $cartCtrl->getCartTotal($cartIp);
             <?php endif; ?>
 
             <?php if (is_logged_in() && !is_admin()): ?>
-                <a href="<?php echo $ROOT_DIR; ?>/views/orders.php" class="btn-ghost"><i class="bi bi-receipt" aria-hidden="true"></i> My orders</a>
+                <a href="<?php echo $ROOT_DIR; ?>/views/orders.php" class="btn-ghost"><i class="bi bi-receipt" aria-hidden="true"></i> <span class="header-btn-label">My orders</span></a>
             <?php endif; ?>
 
             <?php if (is_logged_in()): ?>
@@ -67,11 +67,22 @@ $totalPrice = $cartCtrl->getCartTotal($cartIp);
             <?php endif; ?>
         </nav>
     </header>
+    <script>
+        // The header wraps to two rows at some widths; keep --header-height equal to its real height
+        // so the sticky sidebar, scroll padding and toasts never sit underneath it.
+        (function () {
+            var header = document.querySelector('.custom-header');
+            if (!header || !window.ResizeObserver) return;
+            new ResizeObserver(function () {
+                document.documentElement.style.setProperty('--header-height', header.offsetHeight + 'px');
+            }).observe(header);
+        })();
+    </script>
 
     <?php if (isset($_SESSION['warning']) || isset($_SESSION['success']) || isset($_SESSION['error'])): ?>
         <div class="toast-popup-container" aria-live="polite" aria-atomic="true">
             <?php if (isset($_SESSION['warning'])): ?>
-                <div class="toast-popup toast-warning shadow-lg">
+                <div class="toast-popup toast-warning">
                     <div class="toast-icon">
                         <i class="bi bi-exclamation-circle-fill"></i>
                     </div>
@@ -98,7 +109,7 @@ $totalPrice = $cartCtrl->getCartTotal($cartIp);
                 unset($_SESSION['success']);
                 $isCartSuccess = (stripos($succMsg, 'cart') !== false);
                 ?>
-                <div class="toast-popup toast-success shadow-lg">
+                <div class="toast-popup toast-success">
                     <div class="toast-icon">
                         <i class="bi bi-check-circle-fill"></i>
                     </div>
@@ -122,7 +133,7 @@ $totalPrice = $cartCtrl->getCartTotal($cartIp);
             <?php endif; ?>
 
             <?php if (isset($_SESSION['error'])): ?>
-                <div class="toast-popup toast-error shadow-lg">
+                <div class="toast-popup toast-error">
                     <div class="toast-icon">
                         <i class="bi bi-x-circle-fill"></i>
                     </div>

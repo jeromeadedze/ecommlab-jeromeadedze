@@ -170,14 +170,14 @@ require_once __DIR__ . "/../layout/header.php";
                                 <span class="text-muted small d-block mb-1">Current Image:</span>
                                 <img src="../../images/products/<?php echo htmlspecialchars($editProduct['product_image']); ?>" 
                                      alt="<?php echo htmlspecialchars($editProduct['product_title']); ?>" 
-                                     class="rounded border shadow-sm" 
+                                     class="rounded shadow-sm img-outline" 
                                      style="max-width: 140px; max-height: 140px; object-fit: cover;">
                             </div>
                         <?php endif; ?>
                         <div id="newImagePreviewContainer" class="d-none">
                             <span class="text-muted small d-block mb-1">Selected Image Preview:</span>
                             <img id="newImagePreview" src="#" alt="Preview" 
-                                 class="rounded border shadow-sm" 
+                                 class="rounded shadow-sm img-outline" 
                                  style="max-width: 140px; max-height: 140px; object-fit: cover;">
                         </div>
                     </div>
@@ -203,11 +203,11 @@ require_once __DIR__ . "/../layout/header.php";
                 <table class="table table-striped table-hover align-middle mb-0">
                     <thead>
                         <tr>
-                            <th># ID</th>
-                            <th>Image</th>
+                            <th class="d-none d-md-table-cell"># ID</th>
+                            <th class="d-none d-sm-table-cell">Image</th>
                             <th>Title</th>
-                            <th>Category</th>
-                            <th>Brand</th>
+                            <th class="d-none d-md-table-cell">Category</th>
+                            <th class="d-none d-md-table-cell">Brand</th>
                             <th>Price</th>
                             <th class="text-end pe-3">Action</th>
                         </tr>
@@ -216,12 +216,12 @@ require_once __DIR__ . "/../layout/header.php";
                         <?php if (!empty($products)): ?>
                             <?php foreach ($products as $p): ?>
                                 <tr>
-                                    <td><?php echo htmlspecialchars($p['product_id']); ?></td>
-                                    <td>
+                                    <td class="d-none d-md-table-cell"><?php echo htmlspecialchars($p['product_id']); ?></td>
+                                    <td class="d-none d-sm-table-cell">
                                         <?php if (!empty($p['product_image'])): ?>
                                             <img src="../../images/products/<?php echo htmlspecialchars($p['product_image']); ?>" 
                                                  alt="<?php echo htmlspecialchars($p['product_title']); ?>" 
-                                                 class="rounded" style="width: 48px; height: 48px; object-fit: cover;">
+                                                 class="rounded img-outline" style="width: 48px; height: 48px; object-fit: cover;">
                                         <?php else: ?>
                                             <div class="bg-light rounded d-flex align-items-center justify-content-center text-muted border" 
                                                  style="width: 48px; height: 48px; font-size: 0.8rem;">
@@ -230,9 +230,9 @@ require_once __DIR__ . "/../layout/header.php";
                                         <?php endif; ?>
                                     </td>
                                     <td class="fw-semibold"><?php echo htmlspecialchars($p['product_title']); ?></td>
-                                    <td><?php echo htmlspecialchars($p['cat_name'] ?? 'None'); ?></td>
-                                    <td><?php echo htmlspecialchars($p['brand_name'] ?? 'None'); ?></td>
-                                    <td>$<?php echo number_format($p['product_price'], 2); ?></td>
+                                    <td class="d-none d-md-table-cell"><?php echo htmlspecialchars($p['cat_name'] ?? 'None'); ?></td>
+                                    <td class="d-none d-md-table-cell"><?php echo htmlspecialchars($p['brand_name'] ?? 'None'); ?></td>
+                                    <td class="text-nowrap">$<?php echo number_format($p['product_price'], 2); ?></td>
                                     <td class="text-end pe-3">
                                         <a href="product.php?edit_id=<?php echo $p['product_id']; ?>" class="btn btn-sm btn-outline-primary">
                                             <i class="bi bi-pencil"></i> Edit

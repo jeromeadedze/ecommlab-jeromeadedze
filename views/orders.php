@@ -26,23 +26,29 @@ $orders = $cartCtrl->getOrdersByCustomer(get_user_id());
                 <thead>
                     <tr>
                         <th>Invoice</th>
-                        <th>Date</th>
-                        <th class="text-center">Items</th>
+                        <th class="d-none d-sm-table-cell">Date</th>
+                        <th class="text-center d-none d-sm-table-cell">Items</th>
                         <th>Status</th>
                         <th class="text-end">Total</th>
-                        <th class="text-end"><span class="visually-hidden">Receipt</span></th>
+                        <th class="text-end d-none d-sm-table-cell"><span class="visually-hidden">Receipt</span></th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($orders as $o): ?>
+                        <?php $receiptUrl = $ROOT_DIR . '/views/payment_success.php?order_id=' . (int)$o['order_id']; ?>
                         <tr>
-                            <td>#<?php echo (int)$o['invoice_no']; ?></td>
-                            <td><?php echo htmlspecialchars($o['order_date']); ?></td>
-                            <td class="text-center"><?php echo (int)$o['item_count']; ?></td>
+                            <td>
+                                <!-- On phones the invoice number is the receipt link, and the date sits under it -->
+                                <a href="<?php echo $receiptUrl; ?>" class="d-sm-none fw-semibold">#<?php echo (int)$o['invoice_no']; ?></a>
+                                <span class="d-none d-sm-inline">#<?php echo (int)$o['invoice_no']; ?></span>
+                                <span class="d-block d-sm-none small text-secondary"><?php echo htmlspecialchars(substr($o['order_date'], 0, 10)); ?></span>
+                            </td>
+                            <td class="d-none d-sm-table-cell"><?php echo htmlspecialchars($o['order_date']); ?></td>
+                            <td class="text-center d-none d-sm-table-cell"><?php echo (int)$o['item_count']; ?></td>
                             <td><?php echo htmlspecialchars($o['order_status']); ?></td>
-                            <td class="text-end">GHS <?php echo number_format($o['total'], 2); ?></td>
-                            <td class="text-end">
-                                <a href="<?php echo $ROOT_DIR; ?>/views/payment_success.php?order_id=<?php echo (int)$o['order_id']; ?>">View receipt</a>
+                            <td class="text-end text-nowrap">GHS <?php echo number_format($o['total'], 2); ?></td>
+                            <td class="text-end d-none d-sm-table-cell">
+                                <a href="<?php echo $receiptUrl; ?>">View receipt</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

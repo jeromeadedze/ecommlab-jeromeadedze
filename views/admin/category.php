@@ -104,7 +104,7 @@ require_once __DIR__ . "/../layout/header.php";
                 <table class="table table-striped table-hover mb-0">
                     <thead>
                         <tr>
-                            <th># ID</th>
+                            <th class="d-none d-sm-table-cell"># ID</th>
                             <th>Category Name</th>
                             <th class="text-end pe-3">Action</th>
                         </tr>
@@ -113,7 +113,7 @@ require_once __DIR__ . "/../layout/header.php";
                         <?php if (!empty($categories)): ?>
                             <?php foreach ($categories as $cat): ?>
                                 <tr>
-                                    <td><?php echo htmlspecialchars($cat['cat_id']); ?></td>
+                                    <td class="d-none d-sm-table-cell"><?php echo htmlspecialchars($cat['cat_id']); ?></td>
                                     <td><?php echo htmlspecialchars($cat['cat_name']); ?></td>
                                     <td class="text-end pe-3">
                                         <a href="category.php?edit_id=<?php echo $cat['cat_id']; ?>" class="btn btn-sm btn-outline-primary me-1">

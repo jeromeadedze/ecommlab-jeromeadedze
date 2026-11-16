@@ -42,11 +42,11 @@ $customers = $controller->selectAll();
             <table class="table table-hover table-borderless align-middle mb-0">
                 <thead class="table-light text-muted" style="border-bottom: 2px solid #f0f0f0;">
                     <tr>
-                        <th class="py-3 px-4 fw-semibold text-uppercase" style="font-size: 0.85rem;">ID</th>
+                        <th class="py-3 px-4 fw-semibold text-uppercase d-none d-md-table-cell" style="font-size: 0.85rem;">ID</th>
                         <th class="py-3 px-4 fw-semibold text-uppercase" style="font-size: 0.85rem;">Name</th>
                         <th class="py-3 px-4 fw-semibold text-uppercase" style="font-size: 0.85rem;">Email</th>
-                        <th class="py-3 px-4 fw-semibold text-uppercase" style="font-size: 0.85rem;">Location</th>
-                        <th class="py-3 px-4 fw-semibold text-uppercase" style="font-size: 0.85rem;">Role</th>
+                        <th class="py-3 px-4 fw-semibold text-uppercase d-none d-lg-table-cell" style="font-size: 0.85rem;">Location</th>
+                        <th class="py-3 px-4 fw-semibold text-uppercase d-none d-sm-table-cell" style="font-size: 0.85rem;">Role</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -57,20 +57,20 @@ $customers = $controller->selectAll();
                     <?php else: ?>
                         <?php foreach ($customers as $c): ?>
                             <tr style="border-bottom: 1px solid #f8f9fa;">
-                                <td class="py-3 px-4 text-muted fw-medium">#<?php echo htmlspecialchars($c['customer_id']); ?></td>
+                                <td class="py-3 px-4 text-muted fw-medium d-none d-md-table-cell">#<?php echo htmlspecialchars($c['customer_id']); ?></td>
                                 <td class="py-3 px-4 fw-semibold" style="color: #333;">
                                     <?php echo htmlspecialchars($c['customer_name']); ?>
                                 </td>
-                                <td class="py-3 px-4 text-muted">
+                                <td class="py-3 px-4 text-muted text-break">
                                     <a href="mailto:<?php echo htmlspecialchars($c['customer_email']); ?>" class="text-decoration-none">
                                         <?php echo htmlspecialchars($c['customer_email']); ?>
                                     </a>
                                 </td>
-                                <td class="py-3 px-4 text-muted">
+                                <td class="py-3 px-4 text-muted d-none d-lg-table-cell">
                                     <i class="bi bi-geo-alt-fill text-black-50 me-1"></i>
                                     <?php echo htmlspecialchars($c['customer_city'] . ', ' . $c['customer_country']); ?>
                                 </td>
-                                <td class="py-3 px-4">
+                                <td class="py-3 px-4 d-none d-sm-table-cell">
                                     <?php if ($c['user_role'] == 1): ?>
                                         <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-3">Admin</span>
                                     <?php else: ?>

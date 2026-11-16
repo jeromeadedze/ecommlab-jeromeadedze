@@ -41,26 +41,32 @@ if (empty($rows)): ?>
         <div class="table-responsive">
             <table class="table align-middle">
                 <thead>
-                    <tr><th>Product</th><th class="text-center">Qty</th><th class="text-end">Price</th><th class="text-end">Subtotal</th></tr>
+                    <tr><th>Product</th><th class="text-center">Qty</th><th class="text-end d-none d-sm-table-cell">Price</th><th class="text-end">Subtotal</th></tr>
                 </thead>
                 <tbody>
                     <?php foreach ($rows as $r): ?>
                         <tr>
                             <td><?php echo htmlspecialchars($r['product_title']); ?></td>
                             <td class="text-center"><?php echo (int)$r['qty']; ?></td>
-                            <td class="text-end">GHS <?php echo number_format($r['product_price'], 2); ?></td>
-                            <td class="text-end">GHS <?php echo number_format($r['qty'] * $r['product_price'], 2); ?></td>
+                            <td class="text-end text-nowrap d-none d-sm-table-cell">GHS <?php echo number_format($r['product_price'], 2); ?></td>
+                            <td class="text-end text-nowrap">GHS <?php echo number_format($r['qty'] * $r['product_price'], 2); ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
                 <tfoot>
-                    <tr><th colspan="3" class="text-end">Total</th><th class="text-end">GHS <?php echo number_format($total, 2); ?></th></tr>
+                    <tr><th colspan="2" class="text-end">Total</th><td class="d-none d-sm-table-cell"></td><th class="text-end text-nowrap">GHS <?php echo number_format($total, 2); ?></th></tr>
                 </tfoot>
             </table>
         </div>
     </div>
-    <a href="<?php echo $ROOT_DIR; ?>/views/orders.php" class="continue-link">View all my orders</a>
-    &middot; <a href="<?php echo $ROOT_DIR; ?>/index.php" class="continue-link">Continue shopping</a>
+    <div class="action-row">
+        <a href="<?php echo $ROOT_DIR; ?>/views/orders.php" class="btn-primary-custom btn-lg-custom">
+            <i class="bi bi-receipt" aria-hidden="true"></i> View all my orders
+        </a>
+        <a href="<?php echo $ROOT_DIR; ?>/index.php" class="btn-outline-custom btn-lg-custom">
+            <i class="bi bi-arrow-left" aria-hidden="true"></i> Continue shopping
+        </a>
+    </div>
 <?php endif; ?>
 
 <?php require_once __DIR__ . '/layout/footer.php'; ?>
