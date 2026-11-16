@@ -46,7 +46,7 @@ $orders = $cartCtrl->getOrdersByCustomer(get_user_id());
                             <td class="d-none d-sm-table-cell"><?php echo htmlspecialchars($o['order_date']); ?></td>
                             <td class="text-center d-none d-sm-table-cell"><?php echo (int)$o['item_count']; ?></td>
                             <td><?php echo htmlspecialchars($o['order_status']); ?></td>
-                            <td class="text-end text-nowrap">GHS <?php echo number_format($o['total'], 2); ?></td>
+                            <td class="text-end text-nowrap">GH₵ <?php echo number_format($o['total'], 2); ?></td>
                             <td class="text-end d-none d-sm-table-cell">
                                 <a href="<?php echo $receiptUrl; ?>" class="btn-outline-custom btn-sm-custom"><i class="bi bi-receipt" aria-hidden="true"></i> View receipt</a>
                             </td>

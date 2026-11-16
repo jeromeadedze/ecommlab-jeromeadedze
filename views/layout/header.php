@@ -51,8 +51,8 @@ $totalPrice = $cartCtrl->getCartTotal($cartIp);
                 <a href="<?php echo $ROOT_DIR; ?>/views/cart.php" class="cart-pill">
                     <i class="bi bi-cart3" aria-hidden="true"></i>
                     <span class="cart-count" aria-hidden="true"><?php echo $totalItems; ?></span>
-                    <span class="cart-total" aria-hidden="true">$<?php echo number_format($totalPrice, 2); ?></span>
-                    <span class="visually-hidden">Cart, <?php echo $totalItems . ' ' . $itemWord; ?>, $<?php echo number_format($totalPrice, 2); ?></span>
+                    <span class="cart-total" aria-hidden="true">GH₵<?php echo number_format($totalPrice, 2); ?></span>
+                    <span class="visually-hidden">Cart, <?php echo $totalItems . ' ' . $itemWord; ?>, GH₵<?php echo number_format($totalPrice, 2); ?></span>
                 </a>
             <?php endif; ?>
 

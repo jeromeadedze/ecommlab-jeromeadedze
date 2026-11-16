@@ -70,7 +70,7 @@ $unitCount = array_sum(array_map(fn($i) => (int)$i['qty'], $cartItems));
                                     </div>
                                 </td>
                                 <td class="text-end text-secondary tabular d-none d-md-table-cell">
-                                    $<?php echo number_format($item['product_price'], 2); ?>
+                                    GH₵<?php echo number_format($item['product_price'], 2); ?>
                                 </td>
                                 <td class="text-center">
                                     <input type="hidden" name="update[]" value="<?php echo $item['p_id']; ?>">
@@ -80,7 +80,7 @@ $unitCount = array_sum(array_map(fn($i) => (int)$i['qty'], $cartItems));
                                            class="form-control qty-input mx-auto">
                                 </td>
                                 <td class="text-end fw-bold tabular js-subtotal">
-                                    $<?php echo number_format($itemSubtotal, 2); ?>
+                                    GH₵<?php echo number_format($itemSubtotal, 2); ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -106,7 +106,7 @@ $unitCount = array_sum(array_map(fn($i) => (int)$i['qty'], $cartItems));
             <h2 id="summary-heading">Order summary</h2>
             <div class="summary-row">
                 <span>Items (<span id="summary-units"><?php echo $unitCount; ?></span>)</span>
-                <span id="summary-items-total">$<?php echo number_format($cartTotal, 2); ?></span>
+                <span id="summary-items-total">GH₵<?php echo number_format($cartTotal, 2); ?></span>
             </div>
             <div class="summary-row">
                 <span>Shipping</span>
@@ -114,7 +114,7 @@ $unitCount = array_sum(array_map(fn($i) => (int)$i['qty'], $cartItems));
             </div>
             <div class="summary-row total">
                 <span>Total</span>
-                <span id="summary-total">$<?php echo number_format($cartTotal, 2); ?></span>
+                <span id="summary-total">GH₵<?php echo number_format($cartTotal, 2); ?></span>
             </div>
             <a href="<?php echo $ROOT_DIR; ?>/views/payment.php" class="btn-primary-custom btn-lg-custom icon-end">
                 Checkout <i class="bi bi-arrow-right" aria-hidden="true"></i>
@@ -129,7 +129,7 @@ $unitCount = array_sum(array_map(fn($i) => (int)$i['qty'], $cartItems));
         var updateBtn = form.querySelector('button[formaction*="update_qty_action"]');
         var inputs = form.querySelectorAll('.qty-input');
         var fmt = function (n) {
-            return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            return 'GH₵' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         };
 
         // Recalculate row subtotals and the order summary as the quantity changes

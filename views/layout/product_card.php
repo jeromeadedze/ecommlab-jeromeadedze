@@ -23,7 +23,7 @@ $detailUrl = $ROOT_DIR . '/views/single_product.php?pro_id=' . $p['product_id'];
         </h2>
         <p class="product-card-desc"><?php echo htmlspecialchars($p['product_desc'] ?? ''); ?></p>
         <div class="product-card-footer">
-            <span class="price">$<?php echo number_format($p['product_price'], 2); ?></span>
+            <span class="price">GH₵<?php echo number_format($p['product_price'], 2); ?></span>
             <?php if (is_admin()): ?>
                 <a href="<?php echo $ROOT_DIR; ?>/views/admin/product.php?edit=<?php echo $p['product_id']; ?>"
                    class="btn-outline-custom btn-sm-custom">

@@ -48,13 +48,13 @@ if (empty($rows)): ?>
                         <tr>
                             <td><?php echo htmlspecialchars($r['product_title']); ?></td>
                             <td class="text-center"><?php echo (int)$r['qty']; ?></td>
-                            <td class="text-end text-nowrap d-none d-sm-table-cell">GHS <?php echo number_format($r['product_price'], 2); ?></td>
-                            <td class="text-end text-nowrap">GHS <?php echo number_format($r['qty'] * $r['product_price'], 2); ?></td>
+                            <td class="text-end text-nowrap d-none d-sm-table-cell">GH₵ <?php echo number_format($r['product_price'], 2); ?></td>
+                            <td class="text-end text-nowrap">GH₵ <?php echo number_format($r['qty'] * $r['product_price'], 2); ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
                 <tfoot>
-                    <tr><th colspan="2" class="text-end">Total</th><td class="d-none d-sm-table-cell"></td><th class="text-end text-nowrap">GHS <?php echo number_format($total, 2); ?></th></tr>
+                    <tr><th colspan="2" class="text-end">Total</th><td class="d-none d-sm-table-cell"></td><th class="text-end text-nowrap">GH₵ <?php echo number_format($total, 2); ?></th></tr>
                 </tfoot>
             </table>
         </div>

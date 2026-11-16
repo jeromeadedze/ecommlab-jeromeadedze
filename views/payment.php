@@ -34,8 +34,8 @@ $total = $cartCtrl->getCartTotal($cartIp);
                         <tr>
                             <td><?php echo htmlspecialchars($item['product_title']); ?></td>
                             <td class="text-center"><?php echo (int)$item['qty']; ?></td>
-                            <td class="text-end text-nowrap d-none d-sm-table-cell">GHS <?php echo number_format($item['product_price'], 2); ?></td>
-                            <td class="text-end text-nowrap">GHS <?php echo number_format($item['qty'] * $item['product_price'], 2); ?></td>
+                            <td class="text-end text-nowrap d-none d-sm-table-cell">GH₵ <?php echo number_format($item['product_price'], 2); ?></td>
+                            <td class="text-end text-nowrap">GH₵ <?php echo number_format($item['qty'] * $item['product_price'], 2); ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -43,7 +43,7 @@ $total = $cartCtrl->getCartTotal($cartIp);
                     <tr>
                         <th colspan="2" class="text-end">Total</th>
                         <td class="d-none d-sm-table-cell"></td>
-                        <th class="text-end text-nowrap">GHS <?php echo number_format($total, 2); ?></th>
+                        <th class="text-end text-nowrap">GH₵ <?php echo number_format($total, 2); ?></th>
                     </tr>
                 </tfoot>
             </table>
@@ -55,7 +55,7 @@ $total = $cartCtrl->getCartTotal($cartIp);
             <i class="bi bi-arrow-left" aria-hidden="true"></i> Back to cart
         </a>
         <button type="button" class="btn-primary-custom btn-lg-custom" onclick="payWithPaystack()">
-            <i class="bi bi-lock-fill" aria-hidden="true"></i> Pay <span class="text-nowrap">GHS <?php echo number_format($total, 2); ?></span> with Paystack
+            <i class="bi bi-lock-fill" aria-hidden="true"></i> Pay <span class="text-nowrap">GH₵ <?php echo number_format($total, 2); ?></span> with Paystack
         </button>
     </div>
 

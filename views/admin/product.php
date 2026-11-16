@@ -97,9 +97,9 @@ require_once __DIR__ . "/../layout/header.php";
 
                     <!-- Price -->
                     <div class="col-md-6 mb-3">
-                        <label for="product_price" class="form-label">Price ($) <span class="text-danger">*</span></label>
+                        <label for="product_price" class="form-label">Price (GH₵) <span class="text-danger">*</span></label>
                         <div class="input-group">
-                            <span class="input-group-text">$</span>
+                            <span class="input-group-text">GH₵</span>
                             <input type="number" step="0.01" min="0.01" class="form-control" id="product_price" name="product_price" 
                                    placeholder="0.00" required
                                    value="<?php echo $editProduct ? htmlspecialchars($editProduct['product_price']) : ''; ?>">
@@ -232,7 +232,7 @@ require_once __DIR__ . "/../layout/header.php";
                                     <td class="fw-semibold"><?php echo htmlspecialchars($p['product_title']); ?></td>
                                     <td class="d-none d-md-table-cell"><?php echo htmlspecialchars($p['cat_name'] ?? 'None'); ?></td>
                                     <td class="d-none d-md-table-cell"><?php echo htmlspecialchars($p['brand_name'] ?? 'None'); ?></td>
-                                    <td class="text-nowrap">$<?php echo number_format($p['product_price'], 2); ?></td>
+                                    <td class="text-nowrap">GH₵<?php echo number_format($p['product_price'], 2); ?></td>
                                     <td class="text-end pe-3">
                                         <a href="product.php?edit_id=<?php echo $p['product_id']; ?>" class="btn btn-sm btn-outline-primary">
                                             <i class="bi bi-pencil"></i> Edit

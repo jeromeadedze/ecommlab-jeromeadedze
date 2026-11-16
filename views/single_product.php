@@ -62,7 +62,7 @@ if (!$product) {
 
         <h1 class="product-detail-title"><?php echo htmlspecialchars($product['product_title']); ?></h1>
 
-        <span class="price">$<?php echo number_format($product['product_price'], 2); ?></span>
+        <span class="price">GH₵<?php echo number_format($product['product_price'], 2); ?></span>
 
         <div class="detail-actions">
             <?php if (is_admin()): ?>
