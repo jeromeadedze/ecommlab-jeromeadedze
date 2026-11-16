@@ -119,7 +119,7 @@ $unitCount = array_sum(array_map(fn($i) => (int)$i['qty'], $cartItems));
             <a href="<?php echo $ROOT_DIR; ?>/views/payment.php" class="btn-primary-custom btn-lg-custom icon-end">
                 Checkout <i class="bi bi-arrow-right" aria-hidden="true"></i>
             </a>
-            <a href="<?php echo $ROOT_DIR; ?>/index.php" class="btn-outline-custom btn-lg-custom w-100 mt-2"><i class="bi bi-arrow-left" aria-hidden="true"></i> Continue shopping</a>
+            <a href="<?php echo $ROOT_DIR; ?>/index.php" class="btn-outline-custom btn-lg-custom w-100 mt-2"><i class="bi bi-bag" aria-hidden="true"></i> Continue shopping</a>
         </aside>
     </div>
 <?php endif; ?>

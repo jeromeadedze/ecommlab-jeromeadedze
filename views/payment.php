@@ -51,12 +51,12 @@ $total = $cartCtrl->getCartTotal($cartIp);
     </div>
 
     <div class="action-row">
-        <button type="button" class="btn-primary-custom btn-lg-custom" onclick="payWithPaystack()">
-            <i class="bi bi-lock-fill" aria-hidden="true"></i> Pay <span class="text-nowrap">GHS <?php echo number_format($total, 2); ?></span> with Paystack
-        </button>
         <a href="<?php echo $ROOT_DIR; ?>/views/cart.php" class="btn-outline-custom btn-lg-custom">
             <i class="bi bi-arrow-left" aria-hidden="true"></i> Back to cart
         </a>
+        <button type="button" class="btn-primary-custom btn-lg-custom" onclick="payWithPaystack()">
+            <i class="bi bi-lock-fill" aria-hidden="true"></i> Pay <span class="text-nowrap">GHS <?php echo number_format($total, 2); ?></span> with Paystack
+        </button>
     </div>
 
     <script src="https://js.paystack.co/v1/inline.js"></script>

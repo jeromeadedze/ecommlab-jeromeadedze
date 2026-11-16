@@ -60,11 +60,11 @@ if (empty($rows)): ?>
         </div>
     </div>
     <div class="action-row">
+        <a href="<?php echo $ROOT_DIR; ?>/index.php" class="btn-outline-custom btn-lg-custom">
+            <i class="bi bi-bag" aria-hidden="true"></i> Continue shopping
+        </a>
         <a href="<?php echo $ROOT_DIR; ?>/views/orders.php" class="btn-primary-custom btn-lg-custom">
             <i class="bi bi-receipt" aria-hidden="true"></i> View all my orders
-        </a>
-        <a href="<?php echo $ROOT_DIR; ?>/index.php" class="btn-outline-custom btn-lg-custom">
-            <i class="bi bi-arrow-left" aria-hidden="true"></i> Continue shopping
         </a>
     </div>
 <?php endif; ?>
